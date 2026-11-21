@@ -333,6 +333,26 @@ love_session();
         适合换主机或留一份完整存档；音乐文件体积大，未包含。</p>
       </div>
       <div class="panel">
+        <h2>完整备份包（换主机用这个）</h2>
+        <p class="desc">
+          把 <code>data/*.json</code> + 照片 + 音乐打成一个 zip，并附每个文件的 sha256 清单。
+          换服务器部署好程序后，**只需上传这一个文件**就能回到备份那一刻：配置、留言、情书、
+          胶囊、每日一问、默契记录、心愿状态、身份归属、照片、音乐、当前曲目、管理员账号全部还原。
+        </p>
+        <a class="btn" id="archiveBtn" href="backup.php">📦 下载完整备份（含音乐）</a>
+        <a class="btn ghost" id="archiveNoMusicBtn" href="backup.php?music=0">只下载数据 + 照片</a>
+        <div style="margin-top:14px">
+          <input type="file" id="archiveInput" accept=".zip,application/zip" hidden>
+          <button class="btn" id="archiveRestoreBtn" type="button">⤴ 上传备份包恢复</button>
+          <span id="archiveProg" class="muted" style="margin-left:10px"></span>
+        </div>
+        <p class="desc" style="margin-top:8px">
+          恢复会<strong>覆盖</strong>现有数据、照片与音乐（包里没有的会被移除），
+          并先把当前 <code>data/*.json</code> 存到 <code>data/pre-restore/&lt;时间&gt;/</code>。
+          管理员密码也会回到备份那一刻；包内不含 <code>security.json</code> 与门禁密钥。
+        </p>
+      </div>
+      <div class="panel">
         <h2>版本历史</h2>
         <p class="desc">
           每次写入前自动留一份旧内容（同一文件 60 秒内只留一次，最多 15 份）。
@@ -1640,6 +1660,73 @@ love_session();
     toast("正在打包，稍等…");
     window.location.href = "export.php";
   });
+
+  /* ---------- 完整备份包（含照片与音乐，可反向恢复）---------- */
+  $("archiveRestoreBtn").addEventListener("click", function () { $("archiveInput").click(); });
+  $("archiveInput").addEventListener("change", function () {
+    var file = $("archiveInput").files && $("archiveInput").files[0];
+    $("archiveInput").value = "";
+    if (!file) return;
+    if (!/\.zip$/i.test(file.name)) { toast("请选择 .zip 备份包", true); return; }
+    if (!confirm(
+      "将用「" + file.name + "」覆盖当前全部数据、照片和音乐。\n" +
+      "包里没有的照片/音乐会从服务器上移除；管理员密码也会回到备份那一刻。\n\n" +
+      "当前 data/ 会先存到 data/pre-restore/，恢复错了能退回来。\n\n继续？"
+    )) return;
+    uploadArchive(file);
+  });
+
+  function uploadArchive(file) {
+    var fd = new FormData();
+    fd.append("action", "restore_archive");
+    fd.append("csrf", csrf);
+    fd.append("file", file);
+    var prog = $("archiveProg");
+    var btn = $("archiveRestoreBtn");
+    btn.disabled = true;
+    prog.textContent = "准备上传…";
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "api.php");
+    xhr.upload.onprogress = function (e) {
+      if (!e.lengthComputable) return;
+      prog.textContent = "上传中 " + Math.round(e.loaded / e.total * 100) + "%（" +
+        fmtSize(e.loaded) + " / " + fmtSize(e.total) + "）";
+    };
+    xhr.onload = function () {
+      btn.disabled = false;
+      prog.textContent = "";
+      var j = null;
+      try { j = JSON.parse(xhr.responseText); } catch (e) {}
+      if (!j) { toast("服务器返回异常（HTTP " + xhr.status + "）", true); return; }
+      if (!j.ok) {
+        var lines = [j.error || "恢复失败"];
+        (j.errors || []).slice(0, 8).forEach(function (x) { lines.push("· " + x); });
+        alert(lines.join("\n"));
+        toast("恢复未完成", true);
+        return;
+      }
+      var msg = "✅ 恢复完成：数据 " + (j.restored.data || 0) + " 个 / 照片 " +
+        (j.restored.photos || 0) + " 张 / 音乐 " + (j.restored.music || 0) + " 首";
+      if (j.removed) msg += "；移除旧文件 " + j.removed + " 个";
+      toast(msg);
+      var detail = [];
+      if (j.manifest) {
+        detail.push("备份版本：" + (j.manifest.appVersion || "?") + "（" + (j.manifest.createdAt || "时间未知") + "）");
+        if (j.manifest.withMusic === false) detail.push("注意：这个包不含音乐，音乐保持服务器现状");
+      }
+      if (j.snapshot) detail.push("恢复前现场：data/pre-restore/" + j.snapshot);
+      (j.warnings || []).forEach(function (x) { detail.push("提示：" + x); });
+      if (detail.length) alert(detail.join("\n"));
+      setTimeout(function () { location.reload(); }, 800);
+    };
+    xhr.onerror = function () {
+      btn.disabled = false;
+      prog.textContent = "";
+      toast("上传失败（网络中断，或文件超过服务器上限）", true);
+    };
+    xhr.send(fd);
+  }
   $("restoreBtn").addEventListener("click", function () { $("restoreInput").click(); });
   $("restoreInput").addEventListener("change", function () {
     var file = $("restoreInput").files && $("restoreInput").files[0];

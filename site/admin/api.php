@@ -12,6 +12,7 @@ require __DIR__ . '/../lib/daily.php';
 require __DIR__ . '/../lib/config.php';  // CFG_KEYS / cfg_* / sanitize_cfg（与 api/config.php 共用一套口径）
 require __DIR__ . '/../lib/compat.php';  // compat_sanitize_rounds：恢复备份时清洗默契度回合
 require __DIR__ . '/../lib/music.php';   // 背景音乐：上传 / 列表 / 改名 / 启用 / 删除
+require __DIR__ . '/../lib/archive.php'; // 便携备份包：校验 / 落地（restore_archive）
 
 function admin_account(): array {
     $a = love_read('admin.json', []);
@@ -148,7 +149,10 @@ if (($_GET['action'] ?? '') === 'whoami') {
     ]);
 }
 
-$in = love_body();
+/* 备份包恢复走 multipart（11MB 的音乐塞不进 JSON base64，也要绕开 php://input）：
+   这时 PHP 已经把请求体吃掉了，字段改从 $_POST 取。其余接口仍是 JSON。 */
+$is_multipart = stripos((string)($_SERVER['CONTENT_TYPE'] ?? ''), 'multipart/form-data') !== false;
+$in = $is_multipart ? $_POST : love_body();
 $action = u_str($in['action'] ?? '');
 
 if ($action === 'whoami') {   // 面板端以 POST 携带 action=whoami 调用
@@ -724,6 +728,81 @@ switch ($action) {
             'warning' => $warn ?? null,
             'error' => $ok ? null : restore_result_note($steps),
         ]);
+
+    /* ---------- 完整备份包恢复（data + 照片 + 音乐） ----------
+       与上面的 restore（结构化 JSON）分工：
+         restore         逐字段清洗、只恢复 5 个数据块，适合"改错了回退"；
+         restore_archive 按文件整组恢复，连身份归属 / 心愿状态 / 当前曲目 / 照片 /
+                         音乐一起回到备份那一刻 —— 换主机部署后用这个。
+       校验在前：manifest 记录每个文件的 sha256，任何一条对不上就整包拒绝，
+       绝不"能恢复多少算多少"地写一半。 */
+    case 'restore_archive': {
+        $root = dirname(__DIR__);
+        $f = $_FILES['file'] ?? null;
+        if (!is_array($f)) love_json(['ok' => false, 'error' => '没有收到备份文件'], 400);
+
+        $err = (int)($f['error'] ?? UPLOAD_ERR_NO_FILE);
+        if ($err !== UPLOAD_ERR_OK) {
+            $map = [
+                UPLOAD_ERR_INI_SIZE   => '文件超过服务器 upload_max_filesize（当前 ' . ini_get('upload_max_filesize') . '）',
+                UPLOAD_ERR_FORM_SIZE  => '文件超过表单上限',
+                UPLOAD_ERR_PARTIAL    => '文件只上传了一部分，请重试',
+                UPLOAD_ERR_NO_FILE    => '没有选择文件',
+                UPLOAD_ERR_NO_TMP_DIR => '服务器缺少临时目录',
+                UPLOAD_ERR_CANT_WRITE => '服务器写临时文件失败',
+                UPLOAD_ERR_EXTENSION  => '上传被扩展中断',
+            ];
+            love_json(['ok' => false, 'error' => $map[$err] ?? ('上传失败（错误码 ' . $err . '）')], 400);
+        }
+
+        $tmp = (string)($f['tmp_name'] ?? '');
+        if ($tmp === '' || !is_uploaded_file($tmp)) {
+            love_json(['ok' => false, 'error' => '临时文件不可用，请重试'], 400);
+        }
+        if ((int)($f['size'] ?? 0) <= 0) love_json(['ok' => false, 'error' => '文件是空的'], 400);
+
+        $vf = love_archive_verify($tmp);
+        if (!$vf['ok']) {
+            love_json([
+                'ok'     => false,
+                'error'  => '备份包校验失败：' . implode('；', array_slice($vf['errors'], 0, 4)),
+                'errors' => $vf['errors'],
+            ], 400);
+        }
+        $m = $vf['manifest'];
+
+        /* 恢复前把现场存一份（data/pre-restore/<时间>/），恢复错了还能退回来 */
+        $snap = love_archive_snapshot($root);
+
+        $rep = love_archive_apply($tmp, $root, $vf['index'], $m,
+            function (string $file, array $data): bool { return admin_replace($file, $data); });
+
+        /* 包里带了 admin.json → 口令哈希已经换成备份里那份，当前会话要重新认账，
+           否则站主刚点完恢复就被踢回登录页。 */
+        $has_admin = false;
+        foreach ((array)($m['files'] ?? []) as $rec) {
+            if (is_array($rec) && ($rec['path'] ?? '') === 'data/admin.json') { $has_admin = true; break; }
+        }
+        if ($has_admin) love_session_rebind();
+
+        $ok = $rep['errors'] === [];
+        love_json([
+            'ok'       => $ok,
+            'manifest' => [
+                'appVersion' => (string)($m['appVersion'] ?? ''),
+                'createdAt'  => (string)($m['createdAt'] ?? ''),
+                'counts'     => $m['counts'] ?? [],
+                'site'       => $m['site'] ?? [],
+                'withMusic'  => (bool)($m['withMusic'] ?? false),
+            ],
+            'restored' => ['data' => $rep['data'], 'photos' => $rep['photos'], 'music' => $rep['music']],
+            'removed'  => $rep['removed'],
+            'snapshot' => $snap ? basename($snap) : '',
+            'warnings' => $rep['warnings'],
+            'errors'   => $rep['errors'],
+            'error'    => $ok ? null : ('部分文件未能恢复：' . implode('；', array_slice($rep['errors'], 0, 4))),
+        ]);
+    }
 
     default:
         love_json(['ok' => false, 'error' => '未知操作'], 400);

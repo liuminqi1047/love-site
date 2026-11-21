@@ -84,6 +84,18 @@ body "$SITE_URL/api/config.php" | grep -q "__SERVER_NOTIFY__" && ok "注入含 _
 # 后台页面未登录时只回登录页，按钮在文件里 —— 直接查源文件更可靠
 grep -q "exportZipBtn" "$SITE_ROOT/admin/index.php" 2>/dev/null && ok "后台有导出按钮" || bad "后台缺少导出按钮"
 
+section "7b. 完整备份包（换主机恢复）"
+c=$(code "$SITE_URL/admin/backup.php")
+[[ "$c" == "403" ]] && ok "备份包下载匿名 → 403" || bad "备份包下载匿名 → $c（应为 403）"
+[[ -f "$SITE_ROOT/admin/backup.php" ]] && ok "backup.php 已部署" || bad "缺少 admin/backup.php"
+[[ -f "$SITE_ROOT/lib/archive.php" ]] && ok "lib/archive.php 已部署" || bad "缺少 lib/archive.php"
+[[ -s "$SITE_ROOT/VERSION" ]] && ok "VERSION = $(head -c 20 "$SITE_ROOT/VERSION" | tr -d '\n')" || bad "缺少 VERSION"
+grep -q "上传备份包恢复" "$SITE_ROOT/admin/index.php" 2>/dev/null && ok "后台有备份包恢复入口" || bad "后台缺少备份包恢复入口"
+grep -q "restore_archive" "$SITE_ROOT/admin/api.php" 2>/dev/null && ok "接口含 restore_archive" || bad "接口缺少 restore_archive"
+# 上传上限：11MB 的包必须能整包上传
+ul=$(php -r 'echo ini_get("upload_max_filesize");' 2>/dev/null | tr -d '[:space:]')
+[[ "$ul" == "64M" ]] && ok "upload_max_filesize = 64M" || bad "upload_max_filesize = $ul（应为 64M）"
+
 section "8. 身份 / 心愿 / 胶囊 / 缩略图"
 for f in /assets/js/identity.js /assets/js/wishes.js /assets/js/capsule-teaser.js; do
     c=$(code "$SITE_URL$f")

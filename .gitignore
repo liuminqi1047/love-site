@@ -19,8 +19,5 @@ src/dist/
 # 门禁签名密钥（由程序自动生成，泄露即可伪造解锁 Cookie）
 site/data/gate_secret
 
-# 运行时数据（含明文解锁密码、私密留言、每日一问答案）
-site/data/*.json
-# 上传照片（个人隐私）
-site/assets/img/uploads/*
-!site/assets/img/uploads/.htaccess
+# 恢复前自动快照（运行时数据，不入库）
+site/data/pre-restore/

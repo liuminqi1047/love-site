@@ -430,6 +430,43 @@ sudo bash /data/love-build/smoke.sh --deep
 * 心愿的乐观更新必须写进**数据源**（`remote.states` / `remote.custom`）再 render：
   `items()` 每次重建对象，只改传进来的引用会被下一次渲染抹掉。
 
+## 功能：完整备份包（v1.1.0，2026-11-21）
+
+**目标**：换一台服务器重新部署后，**只要上传一个文件**，数据与状态就回来。
+
+| 入口 | 做什么 |
+|---|---|
+| 后台「备份与恢复 → 完整备份包」 | 下载 zip（含音乐 / 仅数据+照片）、上传恢复（带进度条） |
+| `GET admin/backup.php[?music=0]` | 流式下载，需后台登录 |
+| `POST admin/api.php` `action=restore_archive` | multipart 上传恢复（字段：`file`、`csrf`） |
+| `php tools/archive.php --root … --out …` | 命令行打包，供 U 盘脚本调用 |
+
+包内布局：
+
+```
+manifest.json          格式版本 / appVersion / 站点名 / 每个文件的 sha256
+data/*.json            配置、内容、每日一问、默契、心愿、身份、音乐索引、管理员
+photos/<文件名>        照片原图
+music/<文件名>         背景音乐
+```
+
+恢复语义：
+
+- **先校验后写盘**：清单里每个文件都要存在且 sha256 对得上，任何一条不符整包拒绝，
+  不会「能恢复多少算多少」地写一半。
+- 恢复前把当前 `data/*.json` 存到 `data/pre-restore/<时间>/`，恢复错了能退回来。
+- 照片与音乐是**整组替换**：包里没有的旧文件会被移除（`.htaccess`、`说明.txt` 保留），
+  并清空 `data/thumbs/`，否则缩略图还是旧的。
+- `data/*.json` 走 `admin_replace()`（与访客写操作共用 flock），不会和正在提交的留言打架。
+- 不含 `data/security.json`（限流计数）与 `data/gate_secret`（门禁密钥，新站自动重新生成）。
+
+体积与限制：当前全量约 **11MB**（data 184K + 照片 400K + 音乐 11M），去掉音乐约 **400KB**。
+整包上传要求 PHP `upload_max_filesize=64M`、`post_max_size=72M`、Nginx `client_max_body_size 64m`
+（`deploy/nginx-love.conf` 已改；主机上另需 `/etc/php/8.4/fpm/conf.d/99-love-upload.ini`）。
+
+自检：`sudo php /data/love-build/backup-selftest.php`（打包 → 校验 → 落地到 /tmp → 逐文件比对
+→ 坏包必须被拒，15 项）。
+
 ## 历史
 
 | 日期 | 内容 |
