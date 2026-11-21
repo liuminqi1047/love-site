@@ -394,10 +394,10 @@
     opt = opt || {};
     var n = axes.length;
     if (!n) return;
-    var ringColor = opt.ring || "rgba(240,98,146,0.28)";
-    var fillColor = opt.fill || "rgba(240,98,146,0.28)";
+    var ringColor = opt.ring || "rgba(139,94,60,0.22)";
+    var fillColor = opt.fill || "rgba(200,155,122,0.30)";
     var lineColor = opt.line || "#f06292";
-    var labelColor = opt.label || "#8a6b7a";
+    var labelColor = opt.label || "#7A5C48";
     var labelSize = opt.labelSize || 22;
 
     var pt = function (i, ratio) {
@@ -466,9 +466,9 @@
     var ctx = canvas.getContext("2d");
 
     var g = ctx.createLinearGradient(0, 0, CARD_W, CARD_H);
-    g.addColorStop(0, "#fff8fb");
-    g.addColorStop(0.5, "#ffeef5");
-    g.addColorStop(1, "#ffe0ec");
+    g.addColorStop(0, "#FFFDF8");
+    g.addColorStop(0.5, "#FFFBF2");
+    g.addColorStop(1, "#F3E6CF");
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, CARD_W, CARD_H);
 
@@ -479,8 +479,8 @@
       ctx.fillStyle = rg;
       ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
     }
-    glow(120, 260, 560, "rgba(255,190,214,0.7)");
-    glow(980, 1560, 620, "rgba(255,214,231,0.65)");
+    glow(120, 260, 560, "rgba(255,194,204,0.40)");
+    glow(980, 1560, 620, "rgba(248,187,208,0.36)");
 
     ctx.fillStyle = "rgba(240,98,146,0.14)";
     [[120, 1560, 26], [930, 420, 22], [860, 1700, 16], [200, 520, 14]].forEach(function (h) {
@@ -492,34 +492,34 @@
     heartPath(ctx, CARD_W / 2, 130, 26); ctx.fill();
 
     // 名字
-    ctx.fillStyle = "#5c4150";
+    ctx.fillStyle = "#6B4A2F";
     ctx.font = "600 50px " + FONT;
-    ctx.fillText(m.boy + "  ♥  " + m.girl, CARD_W / 2, 232);
+    ctx.fillText(m.girl + "  ♥  " + m.boy, CARD_W / 2, 232);
 
     // 等级徽章
-    ctx.fillStyle = "#d81b60";
+    ctx.fillStyle = "#6B4A2F";
     ctx.font = "700 46px " + FONT;
     ctx.fillText(m.level.icon + " 第 " + m.level.index + " 级 · " + m.level.title, CARD_W / 2, 330);
-    ctx.fillStyle = "#9a7b8a";
+    ctx.fillStyle = "#7A5C48";
     ctx.font = "400 34px " + FONT;
     ctx.fillText("已点亮 " + m.got + " / " + m.total + " 个成就", CARD_W / 2, 390);
 
     // 天数
-    ctx.fillStyle = "#d81b60";
+    ctx.fillStyle = "#6B4A2F";
     ctx.font = "700 150px " + FONT;
     ctx.fillText(String(m.days), CARD_W / 2, 570);
-    ctx.fillStyle = "#9a7b8a";
+    ctx.fillStyle = "#7A5C48";
     ctx.font = "500 40px " + FONT;
     ctx.fillText("在 一 起 的 第  天", CARD_W / 2, 630);
 
     // 雷达图
-    ctx.fillStyle = "rgba(255,255,255,0.7)";
+    ctx.fillStyle = "rgba(255,253,248,0.90)";
     roundRect(ctx, 80, 700, CARD_W - 160, 470, 44); ctx.fill();
-    ctx.strokeStyle = "rgba(240,98,146,0.22)"; ctx.lineWidth = 2; ctx.stroke();
+    ctx.strokeStyle = "rgba(139,94,60,0.22)"; ctx.lineWidth = 2; ctx.stroke();
     drawRadar(ctx, CARD_W / 2, 935, 145, m.radar, { labelSize: 26, dot: 6 });
 
     // 徽章墙：已解锁的成就名（两列）
-    ctx.fillStyle = "#9a7b8a";
+    ctx.fillStyle = "#7A5C48";
     ctx.font = "500 32px " + FONT;
     ctx.fillText("点亮的成就", CARD_W / 2, 1240);
 
@@ -533,14 +533,14 @@
       ctx.fillStyle = "#f06292";
       ctx.font = "400 30px " + FONT;
       ctx.fillText("✅", x, y);
-      ctx.fillStyle = "#5c4150";
+      ctx.fillStyle = "#6B4A2F";
       ctx.font = "400 30px " + FONT;
       var name = a.icon + " " + a.name;
       var lines = wrapText(ctx, name, colW - 60);
       ctx.fillText(lines[0], x + 44, y);
     });
     if (m.unlocked.length > shown.length) {
-      ctx.fillStyle = "#9a7b8a";
+      ctx.fillStyle = "#7A5C48";
       ctx.font = "400 28px " + FONT;
       ctx.fillText("…还有 " + (m.unlocked.length - shown.length) + " 个", 120, 1300 + Math.ceil(shown.length / 2) * 56);
     }
@@ -550,18 +550,19 @@
     if (m.proud) {
       ctx.fillStyle = "rgba(255,255,255,0.72)";
       roundRect(ctx, 90, 1720, CARD_W - 180, 120, 36); ctx.fill();
-      ctx.fillStyle = "#9a7b8a";
+      ctx.fillStyle = "#7A5C48";
       ctx.font = "400 28px " + FONT;
       ctx.fillText("最骄傲的一件事", CARD_W / 2, 1762);
-      ctx.fillStyle = "#d81b60";
+      ctx.fillStyle = "#6B4A2F";
       ctx.font = "600 38px " + FONT;
       ctx.fillText(m.proud.icon + " " + m.proud.name, CARD_W / 2, 1812);
     }
 
     // 底部
-    ctx.fillStyle = "#c9a8b6";
+    ctx.fillStyle = "#7A5C48";
     ctx.font = "400 26px " + FONT;
-    ctx.fillText(m.brand + " · " + m.dateText, CARD_W / 2, 1885);
+    /* 小熊主题点缀：💞 💗 🌹 保留，🧸 🤎 🐻 加进来 */
+    ctx.fillText("🧸 💞 💗 🌹 🤎 🐻  " + m.brand + " · " + m.dateText, CARD_W / 2, 1885);
   }
 
   function renderToDataUrl(m) {

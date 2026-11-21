@@ -4,7 +4,7 @@
    身份凭据是服务端 HttpOnly Cookie 里的 deviceId，前端不持有。
    这里只做三件事：
      1) 导航里加一个入口，显示"我是谁"（未认领时提示认领）
-     2) 认领面板：这台设备是 A 还是 B；可改昵称头像
+     2) 认领面板：这台设备是 A 还是 B（a=一二 / b=布布）；可改昵称头像
      3) 给带 data-author="a|b" 的元素自动补一个作者小徽章
         —— 用 MutationObserver，动态渲染的内容也能覆盖，渲染方
         不必再关心"怎么画徽章"。
@@ -14,7 +14,7 @@
   "use strict";
 
   var API = "api/identity.php";
-  var AVATARS = ["💗", "🌙", "🌷", "🧸", "🍀", "☀️", "🐰", "🐻", "🌻", "🍑", "⭐", "🫧"];
+  var AVATARS = ["💗", "🌙", "🌷", "🧸", "🍀", "☀️", "🐰", "🐻", "🌻", "🍑", "⭐", "🫧", "🤍", "🤎"];
   var SLOTS = ["a", "b"];
   var HINT_KEY = "love-id-hint";
 
@@ -78,7 +78,7 @@
 
   /* ---------- 认领面板 ---------- */
   function slotCard(key) {
-    var p = (state.people && state.people[key]) || { name: "", avatar: key === "a" ? "💗" : "🌙", claimed: false };
+    var p = (state.people && state.people[key]) || { name: "", avatar: key === "a" ? "🤍" : "🤎", claimed: false };
     var isMe = state.me && state.me.key === key;
     var name = p.name || (isMe ? "我" : "TA");
     var btn;
@@ -93,7 +93,7 @@
     }
     return (
       '<div class="id-card' + (isMe ? " is-me" : "") + '" data-slot="' + key + '">' +
-        '<span class="id-avatar">' + esc(p.avatar || "💗") + "</span>" +
+        '<span class="id-avatar">' + esc(p.avatar || (key === "a" ? "🤍" : "🤎")) + "</span>" +
         '<div class="id-meta"><b>' + esc(name) + "</b>" +
           '<i>' + (p.claimed ? "已认领" : "未认领") + "</i></div>" +
         btn +
@@ -105,7 +105,7 @@
     if (!panel) return;
     var who = state.me ? (state.me.name || "已认领") : "还没认领这台设备";
     var editable = state.me ? state.me.key : "";
-    var av = state.me ? state.me.avatar : "💗";
+    var av = state.me ? state.me.avatar : "🤍";
     var nm = state.me ? state.me.name : "";
 
     panel.querySelector(".id-body").innerHTML =

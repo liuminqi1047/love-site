@@ -159,7 +159,7 @@ const DEFAULT_CONFIG = {
   password: "520520",        // 解锁页密码（想取消密码就留空 ""，会直接进入）
 
   /* ---------- 主页标语 ---------- */
-  slogan: "遇见你之后，所有的日子都有了光。",
+  slogan: "一二和布布的小窝，慢慢走，慢慢爱",
 
   /* ---------- 主页时段问候 ----------
      留空 "" 时按打开时间自动说"早上好/晚上好…，我的 XX"
@@ -168,22 +168,22 @@ const DEFAULT_CONFIG = {
 
   /* ---------- 情话轮播（主页自动播放） ---------- */
   messages: [
-    "第一次见你，风都变甜了",
-    "你是我平淡生活里的那颗糖",
-    "想陪你看很多很多次日落",
-    "世界很大，我的眼里只有你",
-    "和你在一起的每一天，都值得纪念",
-    "余生很长，请多指教",
+    "第一次见你，蜂蜜罐都打翻了",
+    "你是我小窝里最软的那块棉花糖",
+    "想和你并排坐着，看很多很多次日落",
+    "森林很大，我的眼里只有你",
+    "和你窝在一起的每一天，都值得记下来",
+    "往后的日子慢慢走，请多指教",
   ],
 
   /* ---------- 首页四个介绍卡片 ---------- */
   homeCards: [
-    { icon: "🌅", title: "我们的相遇", text: "那天阳光刚好，你也刚好出现在我的世界里。", link: "timeline.html", linkText: "看我们的故事 →" },
-    { icon: "📸", title: "照片回忆录", text: "每一张照片都是一段舍不得忘掉的时光。", link: "gallery.html", linkText: "翻翻相册 →" },
-    { icon: "🎂", title: "特别的日子", text: "纪念日、生日、每一个属于我们的节日。", link: "anniversary.html", linkText: "看看纪念日 →" },
-    { icon: "💌", title: "想对你说的话", text: "有些话写在信里，比说出来更长久。", link: "letter.html", linkText: "读信去 →" },
-    { icon: "🎮", title: "默契大考验", text: "来测一测，我们对彼此有多了解。", link: "game.html", linkText: "开始挑战 →" },
-    { icon: "🌙", title: "小小心愿瓶", text: "把心愿装进瓶子里，等风来，等花开。", link: "letter.html#wish", linkText: "打开心愿瓶 →" },
+    { icon: "🌅", title: "我们的相遇", text: "那天阳光刚好，你也刚好走进我们的小窝。", link: "timeline.html", linkText: "看我们的故事 →" },
+    { icon: "📸", title: "照片回忆录", text: "每一张照片，都是两只小熊舍不得忘掉的时光。", link: "gallery.html", linkText: "翻翻相册 →" },
+    { icon: "🎂", title: "特别的日子", text: "纪念日、生日，每一个值得抱一抱的日子。", link: "anniversary.html", linkText: "看看纪念日 →" },
+    { icon: "💌", title: "想对你说的话", text: "有些话写在信里，比说出来更久更暖。", link: "letter.html", linkText: "读信去 →" },
+    { icon: "🎮", title: "默契大考验", text: "来测一测，两只小熊有多懂彼此。", link: "game.html", linkText: "开始挑战 →" },
+    { icon: "🌙", title: "小小心愿瓶", text: "把心愿装进瓶子里，等风来，等蜂蜜甜。", link: "letter.html#wish", linkText: "打开心愿瓶 →" },
   ],
 
   /* ---------- 纪念日列表 ----------
@@ -194,24 +194,24 @@ const DEFAULT_CONFIG = {
                    闰月生日写 "闰4-15"（自动找下一个有该闰月的年份）
                    网站会自动换算成今年/明年对应的真实公历日期来倒计时     */
   anniversaries: [
-    { icon: "💘", title: "恋爱纪念日", date: "05-20",  type: "repeat" },
+    { icon: "💘", title: "两只小熊的纪念日", date: "05-20",  type: "repeat" },
     { icon: "🎂", title: "待定A的生日", date: "10-24",  type: "repeat" },
     { icon: "🍰", title: "待定B的生日", date: "3-8",   type: "repeat", lunar: true },
-    { icon: "❤️", title: "相恋100天",  date: "2023-08-28", type: "once", auto: "days100" },
-    { icon: "💍", title: "相恋一周年", date: "2024-05-20", type: "once", auto: "year1" },
+    { icon: "❤️", title: "抱抱满 100 天",  date: "2023-08-28", type: "once", auto: "days100" },
+    { icon: "💍", title: "小窝一周年", date: "2024-05-20", type: "once", auto: "year1" },
     { icon: "🎄", title: "圣诞节",     date: "12-25",  type: "repeat" },
   ],
 
   /* ---------- 时光轴（按时间顺序自动排列） ----------
      date 晚于今天的事件会显示"即将到来"样式（如未来的计划/约会） */
   timeline: [
-    { date: "2023-05-20", icon: "👀", title: "第一次相遇", text: "在朋友的聚会上，一眼就注意到了你。那天你说的话不多，我却记了很久。", auto: "start" },
-    { date: "2023-06-11", icon: "💬", title: "第一次约会", text: "一起看了场电影，散场后走了很远的路，路灯下我们谁都不舍得先说再见。" },
+    { date: "2023-05-20", icon: "🧸", title: "第一次相遇", text: "在朋友的聚会上，一眼就注意到了你。那天你说的话不多，我却记了很久。", auto: "start" },
+    { date: "2023-06-11", icon: "💬", title: "第一次约会", text: "一起看了场电影，散场后慢慢走了很远的路，路灯下谁都不舍得先说再见。" },
     { date: "2023-08-28", icon: "💖", title: "在一起 100 天", text: "一百天很短，短到感觉昨天才刚认识；一百天很长，长到我们已经习惯了彼此。", auto: "days100" },
     { date: "2024-02-14", icon: "🌹", title: "第一个情人节", text: "你收到花的时候眼睛亮晶晶的，那个表情我记到现在。" },
-    { date: "2024-05-20", icon: "🏠", title: "相恋一周年", text: "一起布置了属于我们的小家，你说‘这里以后就是我们的窝了’。", auto: "year1" },
+    { date: "2024-05-20", icon: "🤎", title: "小窝一周年", text: "一起布置了属于我们的小窝，你说‘这里以后就是我们的家了’。", auto: "year1" },
     { date: "2025-07-12", icon: "✈️", title: "第一次旅行", text: "去了海边，日出的时候你在旁边睡着了，海风和你的呼吸声一样温柔。" },
-    { date: "2026-12-31", icon: "🎆", title: "跨年之夜", text: "和你一起倒数，迎接新一年的第一秒。" },
+    { date: "2026-12-31", icon: "🐻", title: "跨年之夜", text: "和你抱在一起倒数，迎接新一年的第一秒。" },
   ],
 
   /* ---------- 相册 ----------

@@ -27,18 +27,21 @@
      需要重新回填，而外壳本身只跑一次（见 shell.js 的 loveOnViewMounted）。 */
   function loveBrandFill() {
     document.querySelectorAll("[data-brand]").forEach((el) => {
-      el.textContent = CONFIG.names.boy + " ♥ " + CONFIG.names.girl;
+      /* 导航/页脚是站名位（data-brand-home），其余一律「一二 ♥ 布布」girl 在前 */
+      el.textContent = el.hasAttribute("data-brand-home")
+        ? CONFIG.names.girl + " & " + CONFIG.names.boy + "的小家"
+        : CONFIG.names.girl + " ♥ " + CONFIG.names.boy;
     });
     const heroNames = document.getElementById("heroNames");
     if (heroNames) {
       const esc = window.escHtml || ((v) => String(v === null || v === undefined ? "" : v));
       heroNames.innerHTML =
-        esc(CONFIG.names.boy) + ' <span class="amp">♥</span> ' + esc(CONFIG.names.girl);
+        esc(CONFIG.names.girl) + ' <span class="amp">♥</span> ' + esc(CONFIG.names.boy);
     }
   }
   // 浏览器标签页标题带上名字(便于多标签识别, 改名后自动跟着变)
   function loveSetTitle(pageTitle) {
-    document.title = CONFIG.names.boy + " ♥ " + CONFIG.names.girl + " · " + pageTitle;
+    document.title = CONFIG.names.girl + " ♥ " + CONFIG.names.boy + " · " + pageTitle;
   }
 
   /* ---------- HTML 里的占位名解析 ----------
@@ -227,7 +230,7 @@
           sway: 0.4 + Math.random() * 0.8,
           phase: Math.random() * Math.PI * 2,
           alpha: 0.12 + Math.random() * 0.2,
-          hue: Math.random() < 0.75 ? 340 : 265, // 粉 / 淡紫
+          hue: Math.random() < 0.75 ? 340 : 25,  // 粉 / 浅棕
         });
       }
     }
@@ -1271,7 +1274,7 @@
     const W = innerWidth;
     const H = innerHeight;
     fitCanvas(canvas, W, H);
-    const colors = ["#f06292", "#ff8aab", "#f8bbd0", "#b39ddb", "#ffab91", "#f9a825"];
+    const colors = ["#f06292", "#ff8aab", "#8B5E3C", "#A67C52", "#D9B48F", "#E8C48A", "#FFFDF8"];
     const parts = [];
     for (let i = 0; i < 160; i++) {
       parts.push({
@@ -1322,7 +1325,7 @@
     const W = innerWidth;
     const H = innerHeight;
     fitCanvas(cv, W, H);
-    const colors = ["#f06292", "#ff8aab", "#f8bbd0", "#b39ddb", "#ffab91", "#f9a825", "#ffffff"];
+    const colors = ["#f06292", "#ff8aab", "#8B5E3C", "#A67C52", "#D9B48F", "#E8C48A", "#FFFDF8"];
     let parts = [];
     const maxBursts = bursts || 6;
     let fired = 0;
@@ -1442,7 +1445,7 @@
         vy: -0.5 - Math.random() * 0.6,
         alpha: 0.55,
         born: now,
-        hue: Math.random() < 0.8 ? 340 : 265,
+        hue: Math.random() < 0.8 ? 340 : 25,
       });
       if (hearts.length > 26) hearts.shift();
     }, { passive: true });

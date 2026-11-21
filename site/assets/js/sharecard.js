@@ -198,9 +198,9 @@
 
     // 底色渐变
     var g = ctx.createLinearGradient(0, 0, W, H);
-    g.addColorStop(0, "#fff8fb");
-    g.addColorStop(0.55, "#ffeef5");
-    g.addColorStop(1, "#ffe1ec");
+    g.addColorStop(0, "#FFFDF8");
+    g.addColorStop(0.55, "#FFFBF2");
+    g.addColorStop(1, "#F3E6CF");
     ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
 
     // 两个柔光
@@ -209,8 +209,8 @@
       rg.addColorStop(0, color); rg.addColorStop(1, "rgba(255,255,255,0)");
       ctx.fillStyle = rg; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
     }
-    glow(120, 180, 520, "rgba(255,190,214,0.75)");
-    glow(980, 1320, 560, "rgba(255,214,231,0.7)");
+    glow(120, 180, 520, "rgba(255,194,204,0.42)");
+    glow(980, 1320, 560, "rgba(248,187,208,0.38)");
 
     // 装饰爱心
     ctx.fillStyle = "rgba(240,98,146,0.16)";
@@ -225,30 +225,30 @@
     ctx.textAlign = "center";
 
     // 名字
-    ctx.fillStyle = "#5c4150";
+    ctx.fillStyle = "#6B4A2F";
     /* 名字这一行同样可能超宽（每个名字后台允许 12 字，54px 下约 19 个汉字就顶满） */
-    fillFitted(ctx, m.boy + "  ♥  " + m.girl, W / 2, 250, 54, "600", W - 160);
+    fillFitted(ctx, m.girl + "  ♥  " + m.boy, W / 2, 250, 54, "600", W - 160);
 
     // 天数
     if (m.days !== null) {
-      ctx.fillStyle = "#d81b60";
+      ctx.fillStyle = "#6B4A2F";
       ctx.font = "700 210px " + FONT;
       ctx.fillText(m.daysText, W / 2, 540);
-      ctx.fillStyle = "#9a7b8a";
+      ctx.fillStyle = "#7A5C48";
       ctx.font = "500 44px " + FONT;
       ctx.fillText("在 一 起 的 第  天", W / 2, 620);
-      ctx.fillStyle = "#f06292";
+      ctx.fillStyle = "#C89B7A";
       ctx.font = "400 34px " + FONT;
       ctx.fillText("从 " + m.startText + " 开始", W / 2, 686);
     } else {
-      ctx.fillStyle = "#9a7b8a";
+      ctx.fillStyle = "#7A5C48";
       ctx.font = "500 44px " + FONT;
       ctx.fillText("我们的故事", W / 2, 520);
     }
 
     // 标语
     if (m.slogan) {
-      ctx.fillStyle = "#5c4150";
+      ctx.fillStyle = "#6B4A2F";
       ctx.font = "400 40px " + FONT;
       var sl = wrapText(ctx, m.slogan, 820, 2);
       sl.forEach(function (line, i) { ctx.fillText(line, W / 2, 800 + i * 60); });
@@ -257,15 +257,15 @@
     // 情话卡片
     if (m.quote) {
       var cardY = 960, cardH = 300;
-      ctx.fillStyle = "rgba(255,255,255,0.72)";
+      ctx.fillStyle = "rgba(255,253,248,0.90)";
       roundRect(ctx, 90, cardY, W - 180, cardH, 44); ctx.fill();
-      ctx.strokeStyle = "rgba(240,98,146,0.25)"; ctx.lineWidth = 2; ctx.stroke();
+      ctx.strokeStyle = "rgba(139,94,60,0.22)"; ctx.lineWidth = 2; ctx.stroke();
 
-      ctx.fillStyle = "#9a7b8a";
+      ctx.fillStyle = "#7A5C48";
       ctx.font = "400 30px " + FONT;
       ctx.fillText("今日情话", W / 2, cardY + 70);
 
-      ctx.fillStyle = "#5c4150";
+      ctx.fillStyle = "#6B4A2F";
       ctx.font = "400 42px " + FONT;
       var q = wrapText(ctx, m.quote, W - 260, 3);
       q.forEach(function (line, i) { ctx.fillText(line, W / 2, cardY + 150 + i * 62); });
@@ -273,18 +273,19 @@
 
     // 下一个纪念日
     if (m.next) {
-      ctx.fillStyle = "#d81b60";
+      ctx.fillStyle = "#6B4A2F";
       /* 标题允许 40 字，40px 下约 26 个汉字就顶满画布；缩字号而不是裁掉（F-S7-07） */
       fillFitted(ctx, m.next.icon + " " + m.next.title, W / 2, 1400, 40, "500", W - 160);
-      ctx.fillStyle = "#9a7b8a";
+      ctx.fillStyle = "#7A5C48";
       ctx.font = "400 34px " + FONT;
       ctx.fillText("还有 " + m.next.days + " 天 · " + m.next.dateText, W / 2, 1456);
     }
 
     // 底部
-    ctx.fillStyle = "#c9a8b6";
+    ctx.fillStyle = "#7A5C48";
     ctx.font = "400 28px " + FONT;
-    ctx.fillText(m.brand + " · " + m.dateText, W / 2, 1540);
+    /* 小熊主题点缀：💞 💗 🌹 保留，🧸 🤎 🐻 加进来（小面积，不抢奶油白底） */
+    ctx.fillText("🧸 💞 💗 🌹 🤎 🐻  " + m.brand + " · " + m.dateText, W / 2, 1540);
   }
 
   /** 生成 PNG dataURL */

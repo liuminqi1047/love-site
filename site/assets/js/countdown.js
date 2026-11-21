@@ -333,7 +333,7 @@
         countEl.className = "count anniv-count";
         if (r.skipped) {
           countEl.textContent = r.label;
-          countEl.style.color = "#9a7b8a";
+          countEl.style.color = "#7A5C48";
           countEl.style.fontSize = "0.95rem";
         } else {
           countEl.dataset.target = r.target.toISOString();
@@ -386,7 +386,7 @@
       lastYmd = ymd;
       document.querySelectorAll(".anniv-count").forEach((el) => {
         if (el.dataset.passedOnce === "1") {
-          el.innerHTML = '<span style="color:#9a7b8a;font-size:0.95rem">已度过 这一天</span>';
+          el.innerHTML = '<span style="color:#7A5C48;font-size:0.95rem">已度过 这一天</span>';
           return;
         }
         if (!el.dataset.target) return; // 无目标日期(如今年无此闰月)

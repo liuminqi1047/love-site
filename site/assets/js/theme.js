@@ -62,7 +62,7 @@
     root.setAttribute("data-theme", e);
     root.setAttribute("data-theme-mode", mode);
     var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", e === "dark" ? "#14101a" : "#f06292");
+    if (meta) meta.setAttribute("content", e === "dark" ? "#241A14" : "#FFFBF2");
   }
 
   function notify() {

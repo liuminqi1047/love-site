@@ -194,7 +194,7 @@
   function eventLines(item, occ, uid, stamp, names) {
     var title = String(item.title || "纪念日");
     var desc = title;
-    if (names && (names.boy || names.girl)) desc += " · " + (names.boy || "") + " ♥ " + (names.girl || "");
+    if (names && (names.boy || names.girl)) desc += " · " + (names.girl || "") + " ♥ " + (names.boy || "");
     if (item.lunar) desc += "（农历）";
 
     var lines = [

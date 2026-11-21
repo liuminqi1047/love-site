@@ -11,8 +11,8 @@
 > 页面里的 `https://YOUR-SITE.example` 是**占位域名**，部署前替换成你自己的地址
 > （涉及 `og:image` / `og:url`，8 个页面各一处）。
 >
-> 分享封面 `site/assets/img/og-cover.png` 含个人姓名，未随仓库发布；需要时自行放一张
-> 同名 1200×630 图片即可，缺省不影响站点运行，只是社交分享没有预览图。
+> 分享封面 `site/assets/img/og-cover.png` 是「一二 & 布布」扁平风小熊图（不含任何真实姓名），
+> 随仓库一起发布；部署后记得把 `og:image` / `og:url` 里的占位域名换成自己的地址。
 
 | 目录 | 是什么 |
 |---|---|
@@ -42,17 +42,17 @@
 ### ① 在主机上改
 
 ```bash
-instabox exec lovehost -- 'sudo vim /var/www/love/assets/js/main.js'
+instabox exec your-host -- 'sudo vim /var/www/love/assets/js/main.js'
 ```
 
 改完立刻在主机上验证（不必等传输）：
 
 ```bash
 # 语法
-instabox exec lovehost -- 'php -l /var/www/love/api/config.php'
+instabox exec your-host -- 'php -l /var/www/love/api/config.php'
 # 页面与接口
-instabox exec lovehost -- 'curl -s -o /dev/null -w "%{http_code}\n" http://127.0.0.1:3000/home.html'
-instabox exec lovehost -- 'sudo tail -20 /var/log/nginx/love.error.log'
+instabox exec your-host -- 'curl -s -o /dev/null -w "%{http_code}\n" http://127.0.0.1:3000/home.html'
+instabox exec your-host -- 'sudo tail -20 /var/log/nginx/love.error.log'
 ```
 
 改了 `assets/js/*.js` 或 `assets/css/*.css` 之后**必须同步改 HTML 里的 `?v=` 版本号**，否则浏览器会继续用缓存里的旧文件：
@@ -106,11 +106,11 @@ git commit -m "fix: 音乐播放状态机"
 
 | 场景 | 命令 |
 |---|---|
-| 主机被挂起、网站打不开 | `instabox resume lovehost` |
+| 主机被挂起、网站打不开 | `instabox resume your-host` |
 | 看站点是否在线 | `curl -I https://YOUR-SITE.example/` |
-| 看 Nginx 错误 | `instabox exec lovehost -- sudo tail -20 /var/log/nginx/love.error.log` |
-| 看 PHP 错误 | `instabox exec lovehost -- sudo tail -20 /var/log/php8.4-fpm.log` |
-| 停掉公网访问 | `instabox port unpublish lovehost 3000` |
+| 看 Nginx 错误 | `instabox exec your-host -- sudo tail -20 /var/log/nginx/love.error.log` |
+| 看 PHP 错误 | `instabox exec your-host -- sudo tail -20 /var/log/php8.4-fpm.log` |
+| 停掉公网访问 | `instabox port unpublish your-host 3000` |
 | 数据备份（不依赖本仓库） | 后台 →「备份与恢复」→ 下载 |
 
 ---

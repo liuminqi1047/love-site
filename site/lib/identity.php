@@ -10,6 +10,9 @@
    只是把"当前这台设备的 deviceId"记到 a / b 名下，别人的设备无法
    伪造成你。
 
+   槽位约定：a = 一二（女方），b = 布布（男方）。
+     注意：这里的 a/b 只是设备槽位，与默契测试 compat 的回合顺序 roles.a/b
+     是两回事，不要互相套用；界面显示顺序统一为「一二 ♥ 布布」。
    数据：data/identity.json
      {"a":{"name":"","avatar":"💗","devices":["dev…"]},
       "b":{"name":"","avatar":"🌙","devices":[]}}

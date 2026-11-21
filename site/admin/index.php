@@ -15,17 +15,17 @@ love_session();
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex,nofollow">
-<title>管理员后台 · 情侣网站</title>
+<title>管理员后台 · 一二 &amp; 布布</title>
 <?php /* 与 8 个前台页面同一枚内联图标：不声明 icon 时浏览器会去要 /favicon.ico，
    而仓库里没有这个文件 → 每次打开后台都留一条 404 + 一条控制台错误
    （第四轮 F-S4-05）。内联 data: URI，不新增文件、也不多发一次请求。 */ ?>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23f06292' d='M12 21s-6.7-4.35-9.33-8.11C.9 10.2 1.6 6.5 4.5 5.3c2.5-1.04 5.05.03 6.5 2.17 1.45-2.14 4-3.21 6.5-2.17 2.9 1.2 3.6 4.9 1.83 7.59C18.7 16.65 12 21 12 21z'/%3E%3C/svg%3E">
+<link rel="icon" href="../assets/img/favicon.svg">
 <style>
-  :root { --pink:#f06292; --pink-d:#d6457e; --ink:#5a3b47; --sub:#9a7b8a; --line:#f0c9d8; --bg:#fdf2f6; }
+  :root { --pink:#f06292; --pink-d:#d6457e; --cocoa:#8B5E3C; --cocoa-deep:#6B4A2F; --ink:#4A3226; --sub:#7A5C48; --line:#EAD9C2; --bg:#FFFBF2; }
   * { box-sizing: border-box; }
   body { font-family:"Segoe UI","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--ink); margin:0; font-size:14px; }
   header { background:#fff; border-bottom:1px solid var(--line); padding:14px 22px; display:flex; align-items:center; gap:14px; position:sticky; top:0; z-index:20; }
-  header h1 { font-size:17px; margin:0; color:var(--pink-d); }
+  header h1 { font-size:17px; margin:0; color:var(--cocoa-deep); }
   header .who { color:var(--sub); font-size:13px; flex:1; }
   .tabs { display:flex; flex-wrap:wrap; gap:6px; padding:12px 22px 0; }
   .tabs button { border:1px solid var(--line); background:#fff; color:var(--ink); padding:7px 14px; border-radius:20px; cursor:pointer; font-size:13px; }
@@ -34,14 +34,14 @@ love_session();
   .tab { display:none; }
   .tab.active { display:block; }
   .panel { background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 18px; margin-bottom:16px; }
-  .panel h2 { margin:0 0 4px; font-size:15px; color:var(--pink-d); }
+  .panel h2 { margin:0 0 4px; font-size:15px; color:var(--cocoa-deep); }
   .panel .desc { color:var(--sub); font-size:12px; margin-bottom:12px; }
   label.f { display:block; font-size:12px; color:var(--sub); margin:8px 0 3px; }
   input[type=text], input[type=password], input[type=date], textarea, select {
-    width:100%; padding:8px 10px; border:1px solid #f0c9d8; border-radius:8px; font-size:13px; font-family:inherit; outline:none; background:#fff; color:var(--ink);
+    width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:8px; font-size:13px; font-family:inherit; outline:none; background:#fff; color:var(--ink);
   }
   input:focus, textarea:focus, select:focus { border-color:var(--pink); }
-  .row { display:flex; flex-wrap:wrap; gap:8px; align-items:flex-end; border-bottom:1px dashed #f7dfe9; padding:10px 0; }
+  .row { display:flex; flex-wrap:wrap; gap:8px; align-items:flex-end; border-bottom:1px dashed #F0E3D0; padding:10px 0; }
   .row > div { flex:1; min-width:110px; }
   .row .wide { flex:2.4; min-width:200px; }
   .row .opts { flex:2.4; display:flex; gap:6px; }
@@ -49,10 +49,10 @@ love_session();
   .row-btns { display:flex; gap:4px; align-items:center; flex:0 0 auto; }
   .row-btns button { width:30px; height:30px; border:1px solid var(--line); background:#fff; border-radius:8px; cursor:pointer; color:var(--sub); }
   .row-btns button:hover { color:var(--pink-d); border-color:var(--pink); }
-  .row-btns button.del:hover { color:#c2365f; border-color:#c2365f; }
-  .btn { background:var(--pink); color:#fff; border:0; border-radius:10px; padding:9px 18px; cursor:pointer; font-size:13px; }
-  .btn:hover { background:var(--pink-d); }
-  .btn.ghost { background:#fff; color:var(--pink-d); border:1px solid var(--pink); }
+  .row-btns button.del:hover { color:#c62828; border-color:#c62828; }
+  .btn { background:var(--cocoa); color:#fff; border:0; border-radius:10px; padding:9px 18px; cursor:pointer; font-size:13px; }
+  .btn:hover { background:var(--cocoa-deep); }
+  .btn.ghost { background:#fff; color:var(--cocoa-deep); border:1px solid var(--cocoa); }
   .add-btn { margin:10px 0 0; }
   .savebar { position:fixed; left:0; right:0; bottom:0; background:#fff; border-top:1px solid var(--line); padding:10px 22px; display:flex; align-items:center; gap:12px; z-index:30; }
   .savebar .state { color:var(--sub); font-size:12px; flex:1; }
@@ -65,13 +65,13 @@ love_session();
   .toastbox { position:fixed; top:12px; left:50%; transform:translateX(-50%); z-index:120;
     display:flex; flex-direction:column; gap:8px; width:min(560px,94vw); pointer-events:none; }
   .toast { pointer-events:auto; display:flex; align-items:flex-start; gap:10px;
-    background:#fff; border:1px solid var(--line); border-left:6px solid var(--pink);
+    background:#fff; border:1px solid var(--line); border-left:6px solid var(--cocoa);
     border-radius:12px; padding:12px 14px; font-size:14px; line-height:1.5; color:var(--ink);
-    box-shadow:0 12px 34px rgba(214,69,126,.26); cursor:pointer;
+    box-shadow:0 12px 34px rgba(107,74,47,.22); cursor:pointer;
     animation:toastIn .22s ease-out; }
   .toast.ok   { border-left-color:#2e9e5b; background:#f2fbf6; color:#1f6b41; }
   .toast.warn { border-left-color:#e08f2e; background:#fff8ec; color:#8a5a10; }
-  .toast.err  { border-left-color:#c2365f; background:#fff1f5; color:#a52a4d; }
+  .toast.err  { border-left-color:#c62828; background:#ffebee; color:#c62828; }
   .toast .ico { flex:0 0 auto; font-size:17px; line-height:1.35; }
   .toast .txt { flex:1; white-space:pre-line; word-break:break-word; }
   .toast .x   { flex:0 0 auto; border:0; background:transparent; color:inherit; opacity:.55;
@@ -82,7 +82,7 @@ love_session();
   @keyframes toastOut { to { opacity:0; transform:translateY(-10px); } }
 
   /* 有未保存改动时，保存按钮轻微呼吸 */
-  @keyframes savePulse { 0%,100% { box-shadow:0 0 0 0 rgba(240,98,146,.5); } 50% { box-shadow:0 0 0 7px rgba(240,98,146,0); } }
+  @keyframes savePulse { 0%,100% { box-shadow:0 0 0 0 rgba(139,94,60,.45); } 50% { box-shadow:0 0 0 7px rgba(139,94,60,0); } }
   .savebar .btn.dirty { animation:savePulse 1.6s ease-out infinite; }
 
   @media (prefers-reduced-motion: reduce) {
@@ -90,14 +90,14 @@ love_session();
   }
   @media (max-width:700px){ .toast { font-size:13.5px; padding:11px 12px; } }
   .msg { padding:8px 10px; border-radius:8px; font-size:13px; margin:8px 0; }
-  .msg.err { background:#ffe9ef; color:#c2365f; }
+  .msg.err { background:#ffebee; color:#c62828; }
   .msg.ok { background:#e8f7ee; color:#2e7d4f; }
-  #loginView { max-width:380px; margin:9vh auto; background:#fff; border:1px solid var(--line); border-radius:16px; padding:28px; box-shadow:0 8px 30px rgba(240,98,146,.15); }
-  #loginView h1 { font-size:18px; color:var(--pink-d); margin:0 0 4px; }
+  #loginView { max-width:380px; margin:9vh auto; background:#fff; border:1px solid var(--line); border-radius:16px; padding:28px; box-shadow:0 8px 30px rgba(107,74,47,.16); }
+  #loginView h1 { font-size:18px; color:var(--cocoa-deep); margin:0 0 4px; }
   #loginView .sub { color:var(--sub); font-size:12px; margin-bottom:16px; }
   .mini-thumb { width:44px; height:44px; object-fit:cover; border-radius:8px; border:1px solid var(--line); }
   table.ct { width:100%; border-collapse:collapse; }
-  table.ct td, table.ct th { border-bottom:1px solid #f7dfe9; padding:8px 6px; text-align:left; vertical-align:top; font-size:13px; }
+  table.ct td, table.ct th { border-bottom:1px solid #F0E3D0; padding:8px 6px; text-align:left; vertical-align:top; font-size:13px; }
   table.ct th { color:var(--sub); font-weight:normal; font-size:12px; }
   .muted { color:var(--sub); font-size:12px; }
   .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:0 24px; }
@@ -105,7 +105,7 @@ love_session();
 
   /* 相册排序 */
   .photo-order td { vertical-align: middle; }
-  .photo-order .drag-cell { width: 28px; cursor: grab; color: #b08a9a; font-size: 1.1rem; }
+  .photo-order .drag-cell { width: 28px; cursor: grab; color: #7A5C48; font-size: 1.1rem; }
   .photo-order .photo-row.dragging { opacity: .45; }
   .photo-order .photo-row.drop-target td { box-shadow: inset 0 2px 0 #f06292; }
   .photo-order .order-cell { white-space: nowrap; }
@@ -113,7 +113,7 @@ love_session();
   .hist-list { margin-top: 10px; }
   .hist-preview {
     margin-top: 12px; max-height: 320px; overflow: auto; padding: 12px;
-    background: #2b2027; color: #f3e6ed; border-radius: 12px;
+    background: #2C2018; color: #F5E9D8; border-radius: 12px;
     font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .78rem; line-height: 1.6;
     white-space: pre-wrap; word-break: break-all;
   }
@@ -123,7 +123,7 @@ love_session();
 
 <!-- ================= 登录 ================= -->
 <div id="loginView" style="display:none">
-  <h1>🔐 管理员后台</h1>
+  <h1>🧸 管理员后台</h1>
   <p class="sub" id="loginSub">登录后可修改网站的全部配置与数据</p>
   <label class="f">用户名</label>
   <input type="text" id="lgUser" maxlength="20" autocomplete="username">
@@ -136,7 +136,7 @@ love_session();
 <!-- ================= 主界面 ================= -->
 <div id="appView" style="display:none">
   <header>
-    <h1>💗 情侣网站 · 管理员后台</h1>
+    <h1>🧸 一二 &amp; 布布 · 管理员后台</h1>
     <span class="who" id="whoLine"></span>
     <button class="btn ghost" id="logoutBtn">退出登录</button>
   </header>
@@ -501,7 +501,7 @@ love_session();
     el.className = "state" + (kind ? " " + kind : "");
   }
   function syncTitle() {
-    document.title = (dirty ? "● " : "") + "管理员后台 · 情侣网站";
+    document.title = (dirty ? "● " : "") + "管理员后台 · 一二 & 布布";
   }
   function markDirty() {
     dirty = true;

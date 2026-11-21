@@ -1,13 +1,37 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#d4fc79"/>
-      <stop offset="1" stop-color="#96e6a1"/>
-    </linearGradient>
-  </defs>
-  <rect width="800" height="600" fill="url(#g)"/>
-  <circle cx="400" cy="280" r="150" fill="rgba(255,255,255,0.35)"/>
-  <text x="400" y="315" font-size="96" text-anchor="middle">🎁</text>
-  <text x="400" y="440" font-size="34" text-anchor="middle" fill="rgba(60,20,40,0.85)" font-family="PingFang SC, Microsoft YaHei, sans-serif">节日的小惊喜</text>
-  <text x="400" y="500" font-size="18" text-anchor="middle" fill="rgba(60,20,40,0.6)" font-family="PingFang SC, Microsoft YaHei, sans-serif">把你的照片替换到这里 · assets/img/photo-7.jpg</text>
+  <!-- 一二布布 · 扁平风占位图：奶油白底 / 棕色描边 / 粉色腮红点缀 / 🧸 -->
+  <rect width="800" height="600" fill="#FFFBF2"/>
+  <circle cx="70" cy="80" r="26" fill="#F5EBDC"/>
+  <circle cx="735" cy="120" r="16" fill="#F5EBDC"/>
+  <circle cx="720" cy="500" r="30" fill="#F5EBDC"/>
+  <text x="98" y="72" font-size="26" fill="#f06292">♥</text>
+  <text x="690" y="70" font-size="20" fill="#f06292">♥</text>
+  <rect x="90" y="52" width="620" height="400" rx="36" fill="#FFFDF8" stroke="#EAD9C2" stroke-width="3"/>
+  <text x="400" y="118" font-size="42" text-anchor="middle">🧸</text>
+  <circle cx="274.5" cy="221.8" r="23.8" fill="#6B4A2F" stroke="#6B4A2F" stroke-width="3"/>
+  <circle cx="369.5" cy="221.8" r="23.8" fill="#6B4A2F" stroke="#6B4A2F" stroke-width="3"/>
+  <circle cx="322.0" cy="198.0" r="9.9" fill="#6B4A2F"/>
+  <circle cx="322.0" cy="268.0" r="66.0" fill="#FFFFFF" stroke="#6B4A2F" stroke-width="4"/>
+  <path d="M322.0 211.2 L298.2 195.4 L298.2 227.1 Z" fill="#A67C52" stroke="#6B4A2F" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M322.0 211.2 L345.8 195.4 L345.8 227.1 Z" fill="#A67C52" stroke="#6B4A2F" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="322.0" cy="211.2" r="7.3" fill="#8B5E3C" stroke="#6B4A2F" stroke-width="2"/>
+  <ellipse cx="285.0" cy="283.8" rx="14.5" ry="8.6" fill="#FFC2CC"/>
+  <ellipse cx="359.0" cy="283.8" rx="14.5" ry="8.6" fill="#FFC2CC"/>
+  <circle cx="302.2" cy="262.7" r="5.6" fill="#4A3226"/>
+  <circle cx="341.8" cy="262.7" r="5.6" fill="#4A3226"/>
+  <ellipse cx="322.0" cy="281.2" rx="8.6" ry="6.3" fill="#6B4A2F"/>
+  <path d="M322.0 287.8 v6.6 M322.0 294.4 q-10.6 10.6 -18.5 0 M322.0 294.4 q10.6 10.6 18.5 0" fill="none" stroke="#6B4A2F" stroke-width="2.6" stroke-linecap="round"/>
+  <circle cx="430.5" cy="221.8" r="23.8" fill="#6B4A2F" stroke="#6B4A2F" stroke-width="3"/>
+  <circle cx="525.5" cy="221.8" r="23.8" fill="#6B4A2F" stroke="#6B4A2F" stroke-width="3"/>
+  <circle cx="478.0" cy="268.0" r="66.0" fill="#C89B7A" stroke="#6B4A2F" stroke-width="4"/>
+  <ellipse cx="441.0" cy="283.8" rx="14.5" ry="8.6" fill="#FFC2CC"/>
+  <ellipse cx="515.0" cy="283.8" rx="14.5" ry="8.6" fill="#FFC2CC"/>
+  <circle cx="458.2" cy="262.7" r="5.6" fill="#4A3226"/>
+  <circle cx="497.8" cy="262.7" r="5.6" fill="#4A3226"/>
+  <ellipse cx="478.0" cy="281.2" rx="8.6" ry="6.3" fill="#6B4A2F"/>
+  <path d="M478.0 287.8 v6.6 M478.0 294.4 q-10.6 10.6 -18.5 0 M478.0 294.4 q10.6 10.6 18.5 0" fill="none" stroke="#6B4A2F" stroke-width="2.6" stroke-linecap="round"/>
+  <text x="400" y="252" font-size="30" fill="#f06292" text-anchor="middle">♥</text>
+  <text x="400" y="392" font-size="20" text-anchor="middle" fill="#7A5C48" font-family="PingFang SC, Microsoft YaHei, sans-serif">一二 &amp; 布布</text>
+  <text x="400" y="510" font-size="34" text-anchor="middle" fill="#4A3226" font-family="PingFang SC, Microsoft YaHei, sans-serif">节日的小惊喜</text>
+  <text x="400" y="556" font-size="18" text-anchor="middle" fill="#7A5C48" font-family="PingFang SC, Microsoft YaHei, sans-serif">把你的照片替换到这里 · assets/img/photo-7.jpg</text>
 </svg>
