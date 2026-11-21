@@ -82,7 +82,14 @@
     var list = allCapsules();
     grid.innerHTML = "";
     if (!list.length) {
-      grid.innerHTML = '<div class="capsule-empty muted">还没有时间胶囊。写一封给一年后的 TA 吧 ⏳</div>';
+      grid.innerHTML =
+        '<div class="empty-state">' +
+          '<img class="empty-bear" src="assets/img/yier-bubu.png" alt="一二和布布">' +
+          '<p class="empty-text">还没有时间胶囊，给未来的 TA 写第一封信，从这里开始</p>' +
+          '<button class="btn empty-btn" type="button" id="emptyCapsule">⏳ 写一封给未来的信</button>' +
+        "</div>";
+      var eb = document.getElementById("emptyCapsule");
+      if (eb) eb.addEventListener("click", function () { var c = document.getElementById("newCapsuleBtn"); if (c) c.click(); });
       if (window.revealNow) window.revealNow();
       return;
     }

@@ -94,7 +94,9 @@
     function renderPanel() {
       var html = "";
       if (!items.length) {
-        html = '<div class="notify-empty">还没有新消息。等 TA 传照片、写情书，这里会有提示。</div>';
+        html = '<div class="empty-state compact">' +
+               '<img class="empty-bear" src="assets/img/yier-bubu.png" alt="一二和布布">' +
+               '<p class="empty-text">还没有新消息，等 TA 传照片、写情书，这里会有提示</p></div>';
       } else {
         html = items.map(function (it) {
           var un = seen.indexOf(it.id) < 0;

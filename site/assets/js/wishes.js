@@ -248,9 +248,14 @@
     grid.innerHTML = "";
     if (!list.length) {
       var empty = document.createElement("div");
-      empty.className = "wish-empty";
-      empty.textContent = all.length ? "这个分类里还没有心愿" : "心愿瓶是空的，等你放第一个愿望进来 ✨";
+      empty.className = "empty-state";
+      empty.innerHTML =
+        '<img class="empty-bear" src="assets/img/yier-bubu.png" alt="一二和布布">' +
+        '<p class="empty-text">' + (all.length ? "这个分类里还没有心愿" : "心愿瓶是空的，一二和布布的第一个愿望从这里开始") + "</p>" +
+        (all.length ? "" : '<button class="btn empty-btn" type="button" id="emptyWish">✨ 许下第一个愿望</button>');
       grid.appendChild(empty);
+      var eb = document.getElementById("emptyWish");
+      if (eb) eb.addEventListener("click", function () { var w = document.getElementById("wishAddBtn"); if (w) w.click(); });
       return;
     }
 

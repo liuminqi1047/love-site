@@ -117,7 +117,11 @@
   function render() {
     if (!view) return;
     var q = questionOf(view.dayNo || 0);
-    if (!q) { card.innerHTML = '<div class="muted">还没有配置题目，去后台「题库与真心话 → 每日一问」加几条吧</div>'; return; }
+    if (!q) { card.innerHTML =
+      '<div class="empty-state compact">' +
+        '<img class="empty-bear" src="assets/img/yier-bubu.png" alt="一二和布布">' +
+        '<p class="empty-text">今天还没有题目，等 TA 出第一道题吧</p>' +
+      "</div>"; return; }
 
     var html = '<div class="daily-q"><span class="daily-tag">今天的问题</span>' + esc(q.text) + "</div>";
 

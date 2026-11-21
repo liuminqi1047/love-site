@@ -302,7 +302,17 @@
     if (!boardList) return;
     const list = allMessages();
     if (!list.length) {
-      boardList.innerHTML = '<div class="board-empty">还没有留言，来说第一句吧 💕</div>';
+      boardList.innerHTML =
+        '<div class="empty-state">' +
+          '<img class="empty-bear" src="assets/img/yier-bubu.png" alt="一二和布布">' +
+          '<p class="empty-text">还没有留言，一二和布布的第一句悄悄话从这里开始</p>' +
+          '<button class="btn empty-btn" type="button" id="emptyMsg">💬 说第一句悄悄话</button>' +
+        "</div>";
+      var eb = document.getElementById("emptyMsg");
+      if (eb) eb.addEventListener("click", function () {
+        var t = document.getElementById("msgText");
+        if (t) { t.focus(); t.scrollIntoView({ behavior: "smooth", block: "center" }); }
+      });
       return;
     }
     boardList.innerHTML = "";

@@ -1374,7 +1374,8 @@
      reduceMotion 与飘心同一口径（见文件末尾的启动飘心）：这 46 片花瓣是持续
      下落的常驻动画，正是"减少动态效果"要关掉的那一类。旧实现漏了这道判断，
      于是开了该选项的访客解锁页照样满屏花瓣。 */
-  if (document.getElementById("petalCanvas") && !reduceMotion) {
+  /* ---------- 解锁页花瓣：装饰动效已精简关闭（只保留爱心心跳 + 切页淡入） ---------- */
+  if (false && document.getElementById("petalCanvas") && !reduceMotion) {
     const cv = document.getElementById("petalCanvas");
     const cx = cv.getContext("2d");
     let W, H, petals = [];
@@ -1474,9 +1475,6 @@
     })();
   }
 
-  /* ---------- 启动飘心（系统开了减弱动态效果时全部跳过） ---------- */
-  if (!reduceMotion) {
-    cursorHearts();
-    createHeartsCanvas();
-  }
+  /* ---------- 装饰动效已精简：只保留爱心心跳(heartbeat)与切页淡入(pageIn)。
+     背景飘心、光标跟随爱心、解锁页花瓣均已关闭。 ---------- */
 })();

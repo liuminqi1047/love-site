@@ -124,6 +124,17 @@
   function render() {
     currentList = photos.filter((p) => currentCat === "全部" || p.cat === currentCat);
     grid.innerHTML = "";
+    if (!photos.length) {
+      grid.innerHTML =
+        '<div class="empty-state">' +
+          '<img class="empty-bear" src="assets/img/yier-bubu.png" alt="一二和布布">' +
+          '<p class="empty-text">还没有照片，一二和布布的第一张合照从这里开始</p>' +
+          '<button class="btn empty-btn" type="button" id="emptyAddPhoto">📷 上传第一张照片</button>' +
+        "</div>";
+      const eb = document.getElementById("emptyAddPhoto");
+      if (eb) eb.addEventListener("click", () => { const ab = document.getElementById("addPhotoBtn"); if (ab) ab.click(); });
+      return;
+    }
     currentList.forEach((p, i) => {
       const item = document.createElement("figure");
       item.className = "photo reveal";
