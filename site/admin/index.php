@@ -16,12 +16,13 @@ love_session();
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex,nofollow">
 <title>管理员后台 · 一二 &amp; 布布</title>
-<?php /* 与 8 个前台页面同一枚内联图标：不声明 icon 时浏览器会去要 /favicon.ico，
-   而仓库里没有这个文件 → 每次打开后台都留一条 404 + 一条控制台错误
-   （第四轮 F-S4-05）。内联 data: URI，不新增文件、也不多发一次请求。 */ ?>
-<link rel="icon" href="../assets/img/favicon.svg">
+<?php /* 标签页图标统一使用用户提供的「一二 & 布布」合照原图（等比缩放版），
+   与 8 个前台页面引用同一枚文件；不声明 icon 时浏览器会去要 /favicon.ico，
+   仓库里没有该文件 → 会留一条 404（第四轮 F-S4-05）。 */ ?>
+<link rel="icon" type="image/png" sizes="any" href="../assets/img/favicon.png">
+<link rel="apple-touch-icon" href="../assets/img/favicon.png">
 <style>
-  :root { --pink:#f06292; --pink-d:#d6457e; --cocoa:#8B5E3C; --cocoa-deep:#6B4A2F; --ink:#4A3226; --sub:#7A5C48; --line:#EAD9C2; --bg:#FFFBF2; }
+  :root { --accent:#8B5E3C; --accent-d:#6B4A2F; --cocoa:#8B5E3C; --cocoa-deep:#6B4A2F; --ink:#4A3226; --sub:#7A5C48; --line:#EAD9C2; --bg:#FFFBF2; }
   * { box-sizing: border-box; }
   body { font-family:"Segoe UI","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--ink); margin:0; font-size:14px; }
   header { background:#fff; border-bottom:1px solid var(--line); padding:14px 22px; display:flex; align-items:center; gap:14px; position:sticky; top:0; z-index:20; }
@@ -29,7 +30,7 @@ love_session();
   header .who { color:var(--sub); font-size:13px; flex:1; }
   .tabs { display:flex; flex-wrap:wrap; gap:6px; padding:12px 22px 0; }
   .tabs button { border:1px solid var(--line); background:#fff; color:var(--ink); padding:7px 14px; border-radius:20px; cursor:pointer; font-size:13px; }
-  .tabs button.active { background:var(--pink); border-color:var(--pink); color:#fff; }
+  .tabs button.active { background:var(--accent); border-color:var(--accent); color:#fff; }
   main { padding:16px 22px 90px; max-width: 980px; }
   .tab { display:none; }
   .tab.active { display:block; }
@@ -40,7 +41,7 @@ love_session();
   input[type=text], input[type=password], input[type=date], textarea, select {
     width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:8px; font-size:13px; font-family:inherit; outline:none; background:#fff; color:var(--ink);
   }
-  input:focus, textarea:focus, select:focus { border-color:var(--pink); }
+  input:focus, textarea:focus, select:focus { border-color:var(--accent); }
   .row { display:flex; flex-wrap:wrap; gap:8px; align-items:flex-end; border-bottom:1px dashed #F0E3D0; padding:10px 0; }
   .row > div { flex:1; min-width:110px; }
   .row .wide { flex:2.4; min-width:200px; }
@@ -48,20 +49,21 @@ love_session();
   .row .opts input { flex:1; }
   .row-btns { display:flex; gap:4px; align-items:center; flex:0 0 auto; }
   .row-btns button { width:30px; height:30px; border:1px solid var(--line); background:#fff; border-radius:8px; cursor:pointer; color:var(--sub); }
-  .row-btns button:hover { color:var(--pink-d); border-color:var(--pink); }
-  .row-btns button.del:hover { color:#c62828; border-color:#c62828; }
+  .row-btns button:hover { color:var(--accent-d); border-color:var(--accent); }
+  .row-btns button.del:hover { color:#6b4a2f; border-color:#6b4a2f; }
   .btn { background:var(--cocoa); color:#fff; border:0; border-radius:10px; padding:9px 18px; cursor:pointer; font-size:13px; }
   .btn:hover { background:var(--cocoa-deep); }
   .btn.ghost { background:#fff; color:var(--cocoa-deep); border:1px solid var(--cocoa); }
   .add-btn { margin:10px 0 0; }
   .savebar { position:fixed; left:0; right:0; bottom:0; background:#fff; border-top:1px solid var(--line); padding:10px 22px; display:flex; align-items:center; gap:12px; z-index:30; }
   .savebar .state { color:var(--sub); font-size:12px; flex:1; }
-  .savebar .state.dirty { color:#e08f2e; }
-  .savebar .state.ok { color:#2e9e5b; }
+  .savebar .state.dirty { color:#8B5E3C; }
+  .savebar .state.ok { color:#4A3226; }
 
   /* ---------- 顶部通知横幅 ----------
-     每次保存/上传/删除的结果都在这里弹出：带图标、带底色、左侧色条，
-     成功绿、警告琥珀、失败红；失败不自动消失，必须点一下才关。 */
+     每次保存/上传/删除的结果都在这里弹出：带图标、带底色、左侧色条；
+     三类状态只用棕色深浅区分（成功=浅棕、提醒=奶油白、失败=深棕），
+     语义由文案与图标表达；失败不自动消失，必须点一下才关。 */
   .toastbox { position:fixed; top:12px; left:50%; transform:translateX(-50%); z-index:120;
     display:flex; flex-direction:column; gap:8px; width:min(560px,94vw); pointer-events:none; }
   .toast { pointer-events:auto; display:flex; align-items:flex-start; gap:10px;
@@ -69,9 +71,9 @@ love_session();
     border-radius:12px; padding:12px 14px; font-size:14px; line-height:1.5; color:var(--ink);
     box-shadow:0 12px 34px rgba(107,74,47,.22); cursor:pointer;
     animation:toastIn .22s ease-out; }
-  .toast.ok   { border-left-color:#2e9e5b; background:#f2fbf6; color:#1f6b41; }
-  .toast.warn { border-left-color:#e08f2e; background:#fff8ec; color:#8a5a10; }
-  .toast.err  { border-left-color:#c62828; background:#ffebee; color:#c62828; }
+  .toast.ok   { border-left-color:#8B5E3C; background:#F3E6CF; color:#4A3226; }
+  .toast.warn { border-left-color:#C89B7A; background:#FFFBF2; color:#6B4A2F; }
+  .toast.err  { border-left-color:#4A3226; background:#EAD9C2; color:#4A3226; font-weight:600; }
   .toast .ico { flex:0 0 auto; font-size:17px; line-height:1.35; }
   .toast .txt { flex:1; white-space:pre-line; word-break:break-word; }
   .toast .x   { flex:0 0 auto; border:0; background:transparent; color:inherit; opacity:.55;
@@ -90,8 +92,8 @@ love_session();
   }
   @media (max-width:700px){ .toast { font-size:13.5px; padding:11px 12px; } }
   .msg { padding:8px 10px; border-radius:8px; font-size:13px; margin:8px 0; }
-  .msg.err { background:#ffebee; color:#c62828; }
-  .msg.ok { background:#e8f7ee; color:#2e7d4f; }
+  .msg.err { background:#EAD9C2; color:#4A3226; }
+  .msg.ok { background:#F3E6CF; color:#6B4A2F; }
   #loginView { max-width:380px; margin:9vh auto; background:#fff; border:1px solid var(--line); border-radius:16px; padding:28px; box-shadow:0 8px 30px rgba(107,74,47,.16); }
   #loginView h1 { font-size:18px; color:var(--cocoa-deep); margin:0 0 4px; }
   #loginView .sub { color:var(--sub); font-size:12px; margin-bottom:16px; }
@@ -1119,7 +1121,7 @@ love_session();
       var on = t.id === musicState.active;
       var when = t.ts ? new Date(t.ts * 1000).toLocaleDateString() : "";
       return '<div class="music-row" data-id="' + escHtml(t.id) + '"' +
-             ' style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f3e4ea">' +
+             ' style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #EAD9C2">' +
              '<div style="flex:1;min-width:0">' +
                '<div class="m-name" style="font-weight:600;word-break:break-all">' + escHtml(t.title) + '</div>' +
                '<div class="muted">' + fmtBytes(t.size) + (when ? " · " + when : "") + '</div>' +

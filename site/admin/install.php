@@ -127,19 +127,19 @@ love_protect_uploads_dir(love_uploads_dir());
   <meta name="robots" content="noindex,nofollow">
   <title>管理员安装 · 情侣网站</title>
   <style>
-    body { font-family: "Segoe UI", "Microsoft YaHei", sans-serif; background: #fdf2f6; color: #5a3b47; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; }
-    .card { background: #fff; border-radius: 16px; box-shadow: 0 8px 30px rgba(240,98,146,.18); padding: 32px; width: 100%; max-width: 420px; }
-    h1 { font-size: 20px; margin: 0 0 6px; color: #d6457e; }
-    .sub { font-size: 13px; color: #9a7b8a; margin-bottom: 20px; }
-    label { display: block; font-size: 13px; margin: 14px 0 6px; color: #7a5a6b; }
-    input { width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid #f0c9d8; border-radius: 10px; font-size: 14px; outline: none; }
-    input:focus { border-color: #e88fb2; }
-    button { width: 100%; margin-top: 18px; padding: 11px; background: #f06292; color: #fff; border: 0; border-radius: 10px; font-size: 15px; cursor: pointer; }
-    button:hover { background: #d6457e; }
-    .err { background: #ffe9ef; color: #c2365f; padding: 10px 12px; border-radius: 8px; font-size: 13px; margin-top: 14px; }
-    .checks { margin-top: 20px; font-size: 13px; color: #7a5a6b; border-top: 1px dashed #f0c9d8; padding-top: 12px; }
+    body { font-family: "Segoe UI", "Microsoft YaHei", sans-serif; background: #fffbf2; color: #4a3226; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; }
+    .card { background: #FFFDF8; border-radius: 16px; box-shadow: 0 8px 30px rgba(107,74,47,.18); padding: 32px; width: 100%; max-width: 420px; }
+    h1 { font-size: 20px; margin: 0 0 6px; color: #6b4a2f; }
+    .sub { font-size: 13px; color: #7a5c48; margin-bottom: 20px; }
+    label { display: block; font-size: 13px; margin: 14px 0 6px; color: #7a5c48; }
+    input { width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid #ead9c2; border-radius: 10px; font-size: 14px; outline: none; }
+    input:focus { border-color: #c89b7a; }
+    button { width: 100%; margin-top: 18px; padding: 11px; background: linear-gradient(135deg,#A67C52,#8B5E3C,#6B4A2F); color: #fff; border: 0; border-radius: 10px; font-size: 15px; cursor: pointer; }
+    button:hover { background: #4A3226; }
+    .err { background: #f3e6cf; color: #6b4a2f; padding: 10px 12px; border-radius: 8px; font-size: 13px; margin-top: 14px; }
+    .checks { margin-top: 20px; font-size: 13px; color: #7a5c48; border-top: 1px dashed #ead9c2; padding-top: 12px; }
     .checks div { margin: 4px 0; }
-    a { color: #d6457e; }
+    a { color: #6b4a2f; }
   </style>
 </head>
 <body>

@@ -1,28 +1,46 @@
 /* ============================================================
    情侣网站 · 全局样式
-   主题: 一二布布 · 奶油白 + 棕主色 · 粉色小点缀 · 玻璃拟态 · 零依赖
+   一二布布 · 配色规范（只使用三类颜色，层级明确）
+     主色   奶油白 —— 页面背景 / 卡片 / 大面积表面
+     辅色   棕  色 —— 文字 / 按钮 / 边框 / 卡片细节（深→浅成套）
+     点缀色 粉  色 —— 仅限爱心、腮红、进度、标题下划线等小面积
+   所有深色一律为深棕；不使用酒红、紫色及其相近色调。
+   玻璃拟态 · 零依赖
    ============================================================ */
 
 :root {
-  --rose:        #f06292;   /* 粉色点缀：腮红 / 爱心 / 进度 / 标题下划线 */
-  --rose-deep:   #d81b60;   /* 深粉点缀 */
-  --rose-soft:   #f8bbd0;   /* 浅粉点缀 */
-  --cocoa:       #8B5E3C;   /* 主色：棕 */
-  --cocoa-deep:  #6B4A2F;   /* 深棕（描边 / 标题） */
-  --cocoa-soft:  #EAD9C2;   /* 浅棕（只做底衬，不做前景） */
-  --cocoa-mid:   #C89B7A;   /* 点缀棕 */
-  --deco:        #D9B48F;   /* 装饰棕 */
-  --blush:       #FFC2CC;   /* 腮红粉 */
-  --peach:       #D9B48F;
-  --lavender:    #C89B7A;
-  --gold:        #B7791F;   /* 暖金（品牌色，不拿它当正文色） */
-  --gold-ink:    #7A5320;   /* 当文字用的金：奶油底上 ≥ 4.5:1 */
-  --rose-ink:    #8B5E3C;   /* 当文字用的强调色 = 主棕（粉压在奶油底上不够看） */
-  --bg:          #FFFBF2;   /* 奶油白 */
+  /* ===== 主色：奶油白（背景与表面，占画面最大面积） ===== */
+  --cream:       #FFFBF2;   /* 页面底色 */
+  --cream-card:  #FFFDF8;   /* 卡片 / 输入表面 */
+  --cream-soft:  #F3E6CF;   /* 浅奶油（底纹 / 提示底） */
+  --bg:          #FFFBF2;
   --card:        rgba(255, 253, 248, 0.72);
   --glass-border:rgba(255, 253, 248, 0.85);
+
+  /* ===== 辅色：棕色（文字 / 按钮 / 边框 / 卡片，由深到浅） ===== */
+  --cocoa-ink:   #4A3226;   /* 最深棕：正文 */
+  --cocoa-deep:  #6B4A2F;   /* 深棕：标题 / 描边 */
+  --cocoa:       #8B5E3C;   /* 主棕：按钮 / 强调 */
+  --cocoa-mid:   #C89B7A;   /* 中棕 */
+  --deco:        #D9B48F;   /* 装饰棕 */
+  --cocoa-soft:  #EAD9C2;   /* 浅棕：只做底衬，不做前景 */
   --ink:         #4A3226;
   --ink-soft:    #7A5C48;
+
+  /* ===== 点缀色：粉色（严格小面积） ===== */
+  --rose:        #f06292;   /* 主点缀粉 */
+  --rose-soft:   #f8bbd0;   /* 浅粉 */
+  --blush:       #FFC2CC;   /* 腮红粉 */
+  --rose-ink:    #8B5E3C;   /* 粉压在奶油底上不够看 → 强调文字用主棕 */
+
+  /* ===== 兼容别名：旧组件仍在引用，一律收敛到上面三类色 ===== */
+  --rose-deep:   #f06292;
+  --peach:       #D9B48F;
+  --lavender:    #C89B7A;
+  --gold:        #8B5E3C;   /* 原暖金 → 主棕 */
+  --gold-ink:    #6B4A2F;   /* 原金墨 → 深棕 */
+
+  /* ===== 阴影 / 圆角 / 动效 ===== */
   --shadow:      0 12px 32px rgba(107, 74, 47, 0.14);
   --shadow-sm:   0 4px 14px rgba(107, 74, 47, 0.10);
   --radius:      24px;
@@ -30,7 +48,7 @@
   --t-mid:       250ms;
   --t-slow:      400ms;
   --ease:        cubic-bezier(0.2, 0.7, 0.3, 1);
-  /* 装饰渐变：粉 → 棕（只用于下划线 / 细条 / 圆点这类小面积） */
+  /* 装饰渐变：棕为主，粉只在起点做小面积点缀（下划线 / 细条 / 圆点） */
   --grad:        linear-gradient(135deg, #f06292 0%, #D9B48F 58%, #8B5E3C 100%);
   --grad-btn:    linear-gradient(135deg, #A67C52 0%, #8B5E3C 55%, #6B4A2F 100%);
   --grad-btn-ink:linear-gradient(135deg, #6B4A2F 0%, #5C3D2E 55%, #4A3226 100%);
@@ -321,7 +339,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   color: transparent;
   line-height: 1.25;
   text-shadow: 0 0 0 rgba(0,0,0,0);
-  filter: drop-shadow(0 4px 14px rgba(216, 27, 96, 0.25));
+  filter: drop-shadow(0 4px 14px rgba(240, 98, 146, 0.25));
 }
 .hero-greeting {
   display: inline-block;
@@ -470,7 +488,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   z-index: 2;
   width: 30px; height: 30px;
   border-radius: 50%;
-  background: rgba(60, 20, 40, 0.65);
+  background: rgba(44, 30, 20, 0.65);
   color: #fff;
   font-size: 0.85rem;
   display: flex;
@@ -480,9 +498,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   transition: opacity 0.25s ease, background 0.25s ease;
 }
 .photo:hover .photo-del { opacity: 1; }
-.photo .photo-del:hover { background: #c62828; }
+.photo .photo-del:hover { background: #6b4a2f; }
 .lb-idx {
-  color: #ffd54f;
+  color: #e8c9a0;
   font-weight: 700;
   margin-right: 8px;
   font-variant-numeric: tabular-nums;
@@ -530,14 +548,14 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   position: absolute;
   left: 0; right: 0; bottom: 0;
   padding: 30px 16px 12px;
-  /* 白字压在**任意用户照片**上（S10-15）：原来的 transparent → rgba(60,20,40,.72)
+  /* 白字压在**任意用户照片**上（S10-15）：原来的 transparent → rgba(44, 30, 20, .72)
      在 30px 的渐隐中段才到 32% 浓度，纯白照片上白字只有约 1.9–2.3:1。
      现在 38% 处就到 0.82、底端 0.9，文字所在的那条带内最弱处也 ≥ 6:1（纯白照片），
      顶部仍由 0.16 渐入，渐隐观感保留。text-shadow 只是兜底，不计入对比度。 */
-  background: linear-gradient(rgba(60, 20, 40, 0.16) 0%, rgba(60, 20, 40, 0.82) 38%, rgba(60, 20, 40, 0.9) 100%);
+  background: linear-gradient(rgba(44, 30, 20, 0.16) 0%, rgba(44, 30, 20, 0.82) 38%, rgba(44, 30, 20, 0.9) 100%);
   color: #fff;
   font-size: 0.9rem;
-  text-shadow: 0 1px 3px rgba(30, 8, 18, 0.55);
+  text-shadow: 0 1px 3px rgba(30, 20, 12, 0.55);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -558,7 +576,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   display: none;
   align-items: center;
   justify-content: center;
-  background: rgba(40, 12, 26, 0.88);
+  background: rgba(38, 26, 18, 0.88);
   backdrop-filter: blur(10px);
 }
 #lightbox.open { display: flex; }
@@ -581,8 +599,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   color: #fff;
   font-size: 1rem;
   /* 短视口（横屏手机）里照片底边会落到这条药丸后面，白字最坏情况只有 2.44:1
-     （S10-15）：底衬加深到 0.7 的深酒红，纯白照片上也有 7.4:1。 */
-  background: rgba(24, 8, 16, 0.7);
+     （S10-15）：底衬加深到 0.7 的深棕，纯白照片上也有 7.4:1。 */
+  background: rgba(26, 18, 12, 0.7);
   padding: 8px 20px;
   border-radius: 999px;
   max-width: 80vw;
@@ -664,7 +682,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tl-date {
   display: inline-block;
   font-size: 0.82rem;
-  /* --rose-deep 单压卡片是 4.87:1，但垫上自己的 12% 玫红底衬后掉到 4.29:1（S10-08） */
+  /* 强调色单压卡片对比度足够，但垫上 12% 棕底衬后会掉到 4.29:1（S10-08） */
   color: var(--cocoa-deep);
   background: rgba(139, 94, 60, 0.12);
   padding: 3px 12px;
@@ -679,12 +697,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* 未来事件(即将到来) */
 .tl-item.tl-future .tl-card {
   border: 2px dashed rgba(139, 94, 60, 0.45);
-  background: rgba(255, 248, 251, 0.75);
+  background: rgba(255, 253, 248, 0.75);
 }
 .tl-item.tl-future .tl-date {
-  background: rgba(249, 168, 37, 0.16);
-  /* 0.82rem/600 是正文级：原 #b26a00 压在 16% 金底上只有 3.65:1（S10-09），
-     --gold-ink 已一并再压深一档到 #7a5c00（该底上是 5.4:1） */
+  background: rgba(201, 155, 122, 0.16);
+  /* 0.82rem/600 是正文级：原 #6b4a2f 压在 16% 金底上只有 3.65:1（S10-09），
+     --gold-ink 已一并收敛为深棕 #6b4a2f（该底上约 5.4:1） */
   color: var(--gold-ink);
 }
 .tl-item.tl-future .dot {
@@ -722,7 +740,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .lunar-badge {
   display: inline-block;
   font-size: 0.7rem;
-  /* 12% 玫红底衬上的小字：--rose-deep 只有 4.29:1（S10-08），改用 --rose-ink（5.0:1） */
+  /* 12% 棕底衬上的小字：粉点缀只有 4.29:1（S10-08），改用 --rose-ink（5.0:1） */
   color: var(--cocoa-deep);
   background: rgba(139, 94, 60, 0.12);
   border: 1px solid rgba(139, 94, 60, 0.35);
@@ -775,7 +793,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   text-align: center;
   font-size: 1.05rem;
   border-radius: 999px;
-  background: linear-gradient(135deg, rgba(255, 138, 171, 0.18), rgba(139, 94, 60, 0.10));
+  background: linear-gradient(135deg, rgba(201, 155, 122, 0.22), rgba(139, 94, 60, 0.10));
 }
 .next-anniv b { color: var(--cocoa-deep); }
 .next-anniv .n-icon { font-size: 1.2rem; }
@@ -868,13 +886,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .env-del {
   margin-top: 14px;
   font-size: 0.78rem;
-  color: #c62828;
-  background: rgba(229, 57, 53, 0.08);
+  color: #6b4a2f;
+  background: rgba(107, 74, 47, 0.08);
   padding: 6px 14px;
   border-radius: 999px;
   transition: background 0.25s ease;
 }
-.env-del:hover { background: rgba(229, 57, 53, 0.18); }
+.env-del:hover { background: rgba(107, 74, 47, 0.18); }
 
 /* 许愿瓶 */
 .wish-grid {
@@ -919,7 +937,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   display: none;
   align-items: center;
   justify-content: center;
-  background: rgba(60, 20, 40, 0.45);
+  background: rgba(44, 30, 20, 0.45);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   padding: 20px;
@@ -1009,7 +1027,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   /* 原 #BFA98F：在这张近白卡上真机实测只有 2.14:1（F-S10-07 只改了 placeholder，
      漏了这枚按钮），而它是全站唯一的留言删除入口 —— 等于把删除操作藏起来了。
      改用 --ink-soft（与紧邻的 .msg-time 同一个色）：浅色 5.6:1 / 暗色 6.0:1，
-     两态都过 AA。hover 态仍是红色 #c62828，破坏性语义没丢（R5-15）。 */
+     两态都过 AA。hover 态仍是深棕 #6b4a2f，破坏性语义没丢（R5-15）。 */
   color: var(--ink-soft);
   font-size: 0.8rem;
   display: flex;
@@ -1017,7 +1035,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   justify-content: center;
   transition: all 0.25s ease;
 }
-.msg-del:hover { background: rgba(229, 57, 53, 0.12); color: #c62828; }
+.msg-del:hover { background: rgba(107, 74, 47, 0.12); color: #6b4a2f; }
 
 @media (max-width: 640px) {
   .board-input { flex-wrap: wrap; }
@@ -1064,17 +1082,16 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   transform: translateX(4px);
 }
 .quiz-opt.correct {
-  border-color: #43a047;
-  background: rgba(67, 160, 71, 0.12);
-  /* 1rem/700 够不到"大字"门槛（18.66px bold），要 4.5:1：原 #2e7d32 压在 12% 绿底上
-     只有 4.45:1（差 0.05，S10-10），加深一档到 #1b5e20（6.9:1） */
-  color: #1b5e20;
+  border-color: #8B5E3C;
+  background: rgba(201, 155, 122, 0.20);
+  /* 答对=亮棕底 + 深棕字；1rem/700 够不到"大字"门槛，需 ≥4.5:1（S10-10） */
+  color: #4A3226;
   font-weight: 700;
 }
 .quiz-opt.wrong {
-  border-color: #e53935;
-  background: rgba(229, 57, 53, 0.10);
-  color: #c62828;
+  border-color: #6B4A2F;
+  background: rgba(74, 50, 38, 0.08);
+  color: #7A5C48;
 }
 .quiz-opt:disabled { cursor: default; }
 .quiz-msg { margin-top: 18px; min-height: 1.6em; color: var(--cocoa-deep); font-weight: 600; }
@@ -1438,7 +1455,7 @@ body.mp-open #topBtn { opacity: 0; pointer-events: none; }
   z-index: 400;
   padding: 11px 24px;
   border-radius: 999px;
-  background: rgba(60, 20, 40, 0.88);
+  background: rgba(44, 30, 20, 0.88);
   color: #fff;
   font-size: 0.92rem;
   opacity: 0;
@@ -1576,7 +1593,7 @@ footer .brand-line { margin-bottom: 6px; font-weight: 600; color: var(--ink); }
   font-size: 0.95rem;
   font-weight: 700;
   color: var(--cocoa-deep);
-  background: rgba(255, 246, 249, 0.92);
+  background: rgba(255, 253, 248, 0.92);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(139, 94, 60, 0.25);
   padding: 6px 20px;
@@ -1606,8 +1623,8 @@ footer .brand-line { margin-bottom: 6px; font-weight: 600; color: var(--ink); }
   font-size: 0.9rem;
   border: 1px solid rgba(139, 94, 60, 0.12);
 }
-.compat-row.ok { background: rgba(129, 199, 132, 0.10); }
-.compat-row.no { background: rgba(239, 154, 154, 0.08); }
+.compat-row.ok { background: rgba(201, 155, 122, 0.10); }
+.compat-row.no { background: rgba(201, 155, 122, 0.08); }
 .compat-q { font-weight: 600; color: var(--ink); margin-bottom: 4px; }
 .compat-ans { color: var(--ink-soft); font-size: 0.84rem; line-height: 1.5; overflow-wrap: anywhere; }   /* 长答案同样不许撑穿卡片（S10-13） */
 
@@ -1676,7 +1693,7 @@ footer .brand-line { margin-bottom: 6px; font-weight: 600; color: var(--ink); }
     top: 62px; left: 0; right: 0;
     flex-direction: column;
     align-items: stretch;
-    background: rgba(255, 246, 249, 0.96);
+    background: rgba(255, 253, 248, 0.96);
     backdrop-filter: blur(16px);
     padding: 10px 16px 18px;
     box-shadow: var(--shadow);
@@ -1697,12 +1714,12 @@ footer .brand-line { margin-bottom: 6px; font-weight: 600; color: var(--ink); }
 
   /* 暗色 + 手机：汉堡面板原本仍是浅粉底 —— 面板底色这条规则写在移动端媒体查询里，
      而暗色段只覆盖了 #nav（挂在其下的 .nav-links 没有暗色版本），于是近白字
-     （--ink #f2e6ec）压在近乎同色的底上：实测 1.06:1，七条导航链接一条都看不见
+     （--ink 旧值）压在近乎同色的底上：实测 1.06:1，七条导航链接一条都看不见
      （第四轮 F-S10-01）。
      这三条必须**写在媒体查询内部**：桌面端 .nav-links 是 #nav 里一条透明的行内导航，
      给它加深色底会把桌面导航整条变成深色药丸（验收里有专门的反向守卫断言）。 */
   :root[data-theme="dark"] .nav-links {
-    background: rgba(24, 18, 24, 0.96);
+    background: rgba(28, 20, 14, 0.96);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
   :root[data-theme="dark"] .nav-links a:hover {
@@ -1780,7 +1797,7 @@ footer .brand-line { margin-bottom: 6px; font-weight: 600; color: var(--ink); }
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 .capsule:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-.capsule.locked { background: linear-gradient(160deg, rgba(255,255,255,0.88), rgba(255,238,245,0.92)); }
+.capsule.locked { background: linear-gradient(160deg, rgba(255,255,255,0.88), rgba(255, 251, 242, 0.92)); }
 .capsule-badge { font-size: 0.78rem; color: var(--cocoa-deep); letter-spacing: 0.04em; margin-bottom: 8px; }
 .capsule h3 { color: var(--ink); font-size: 1.05rem; margin: 0 0 8px; }
 .capsule-date { color: var(--ink-soft); font-size: 0.82rem; margin-bottom: 10px; }
@@ -1814,7 +1831,7 @@ footer .brand-line { margin-bottom: 6px; font-weight: 600; color: var(--ink); }
   border: 1px solid rgba(139, 94, 60, 0.14);
   line-height: 1.85; color: var(--ink);
 }
-.daily-answer.partner { background: rgba(255, 238, 245, 0.9); }
+.daily-answer.partner { background: rgba(255, 251, 242, 0.9); }
 .daily-who {
   display: inline-block; margin-right: 8px;
   color: var(--cocoa-deep); font-weight: 600; font-size: 0.82rem;
@@ -1852,25 +1869,37 @@ footer .brand-line { margin-bottom: 6px; font-weight: 600; color: var(--ink); }
    （assets/js/theme.js 在 <head> 里先设好 data-theme，避免首屏白闪）
    ============================================================ */
 :root[data-theme="dark"] {
-  --rose:        #ff8fb4;
-  --rose-deep:   #ff6f9c;
-  --rose-soft:   #6d3b52;
-  --cocoa:       #E8C9A0;
+  /* 主色：奶油白反转为深棕底 + 浅奶油字，仍是同一套三类色 */
+  --bg:          #241A14;   /* 深棕底 */
+  --cream:       #241A14;
+  --cream-card:  #2C2018;
+  --cream-soft:  #3A2A1E;
+  --card:        rgba(58, 42, 30, 0.72);
+  --glass-border:rgba(255, 253, 248, 0.12);
+
+  /* 辅色：深浅反转，全部仍是棕色系 */
+  --cocoa:       #E8C9A0;   /* 浅棕（深色下的主棕） */
   --cocoa-deep:  #D9B48F;
-  --cocoa-soft:  #4A3626;
+  --cocoa-ink:   #F5E9D8;
+  --cocoa-soft:  #4A3626;   /* 深棕底衬 */
   --cocoa-mid:   #C89B7A;
   --deco:        #D9B48F;
-  --blush:       #ff8fb4;
-  --peach:       #C89B7A;
-  --lavender:    #C89B7A;
-  --gold:        #ffcc66;
-  --gold-ink:    #ffcc66;
-  --rose-ink:    #E8C9A0;
-  --bg:          #241A14;
-  --card:        rgba(58, 42, 30, 0.72);
-  --glass-border:rgba(255, 255, 255, 0.12);
   --ink:         #F5E9D8;
   --ink-soft:    #D9C1A3;
+
+  /* 点缀色：粉色小面积 */
+  --rose:        #ff8fb4;
+  --rose-soft:   #F8BBD0;   /* 原深紫棕 → 浅粉 */
+  --blush:       #ff8fb4;
+  --rose-ink:    #E8C9A0;
+  --rose-deep:   #ff8fb4;
+
+  /* 兼容别名：原金黄 / 深玫红一律改棕色系 */
+  --peach:       #C89B7A;
+  --lavender:    #C89B7A;
+  --gold:        #D9B48F;
+  --gold-ink:    #E8C9A0;
+
   --shadow:      0 12px 32px rgba(0, 0, 0, 0.5);
   --shadow-sm:   0 4px 14px rgba(0, 0, 0, 0.42);
   --grad:        linear-gradient(135deg, #3a2a1e 0%, #2c2018 55%, #241a14 100%);
@@ -1915,39 +1944,39 @@ footer .brand-line { margin-bottom: 6px; font-weight: 600; color: var(--ink); }
 }
 :root[data-theme="dark"] .env-front h3 { color: var(--cocoa); }
 :root[data-theme="dark"] .env-back {
-  background: linear-gradient(160deg, #2b1f2b 0%, #221820 100%);
+  background: linear-gradient(160deg, #2a1d14 0%, #241a14 100%);
   border-color: rgba(255, 111, 156, 0.28);
 }
-/* 暗色下信封背面的删除按钮：原来直接沿用浅色那条 #c62828（暗红压在暗棕底上只有
+/* 暗色下信封背面的删除按钮：原来直接沿用浅色那条深棕（深棕压在暗棕底上只有
    2.6:1），而它是**破坏性操作**的文案，淡到读不出最容易误点（F-S10-03）。
-   换成浅红并把底衬加深一档，实测对比度见主题套件的 F 段。 */
+   换成浅棕文字并把底衬加深一档，实测对比度见主题套件的 F 段。 */
 :root[data-theme="dark"] .env-del {
-  color: #ff8a80;
-  background: rgba(229, 57, 53, 0.2);
+  color: #e8c9a0;
+  background: rgba(107, 74, 47, 0.2);
 }
-:root[data-theme="dark"] .env-del:hover { background: rgba(229, 57, 53, 0.32); }
+:root[data-theme="dark"] .env-del:hover { background: rgba(107, 74, 47, 0.32); }
 :root[data-theme="dark"] .tl-item .dot { border-color: #241A14; }
 :root[data-theme="dark"] #topBtn { background: rgba(255, 255, 255, 0.1); color: var(--ink); }
 :root[data-theme="dark"] footer { background: rgba(255, 255, 255, 0.04); }
 :root[data-theme="dark"] .lb-btn { background: rgba(255, 255, 255, 0.16); }
 /* 暗色下这三处 hover 会被上面那些 `:root[data-theme="dark"] …` 基础规则按权重压掉
    （基础规则 (0,3,0)/(0,4,0) > 状态规则 (0,3,0)/(0,2,0)）：悬停毫无反馈，transition 成了死代码（F-S10-08）。
-   这里补上同权重的暗色 hover；照片删除按钮那条用亮一档的红，因为它是压在暗底上的。 */
+   这里补上同权重的暗色 hover；照片删除按钮那条用亮一档的浅棕，因为它是压在暗底上的。 */
 :root[data-theme="dark"] .compat-hist-row:hover { background: rgba(139, 94, 60, 0.14); }
-:root[data-theme="dark"] .photo .photo-del:hover { background: #e53935; }
+:root[data-theme="dark"] .photo .photo-del:hover { background: #6b4a2f; }
 :root[data-theme="dark"] .lb-btn:hover { background: rgba(139, 94, 60, 0.7); }
 /* 留言的时间/删除按钮这一组是 R5-15 加的，暗色 hover 那一份漏了（S10-06）：
-   #c62828 压在 rgba(229,57,53,.12)+暗卡上只有 2.26:1，而它是全站唯一的留言删除入口，
-   hover 正是按下前的那一帧。口径与 .env-del 一样：亮一档的红 + 加深一档的底衬。 */
-:root[data-theme="dark"] .msg-del:hover { color: #ff8a80; background: rgba(229, 57, 53, 0.2); }
+   #6b4a2f 压在 rgba(107, 74, 47, .12)+暗卡上只有 2.26:1，而它是全站唯一的留言删除入口，
+   hover 正是按下前的那一帧。口径与 .env-del 一样：亮一档的浅棕 + 加深一档的底衬。 */
+:root[data-theme="dark"] .msg-del:hover { color: #e8c9a0; background: rgba(107, 74, 47, 0.2); }
 :root[data-theme="dark"] .photo .photo-del { background: rgba(0, 0, 0, 0.55); }
 :root[data-theme="dark"] .card-preview { box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6); }
-:root[data-theme="dark"] .tl-year h2 { background: rgba(30, 22, 30, 0.92); color: var(--cocoa); }
+:root[data-theme="dark"] .tl-year h2 { background: rgba(30, 22, 16, 0.92); color: var(--cocoa); }
 :root[data-theme="dark"] .tl-item.tl-future .tl-card {
   background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(249, 168, 37, 0.5);
+  border-color: rgba(201, 155, 122, 0.5);
 }
-:root[data-theme="dark"] .tl-item.tl-future .tl-date { background: rgba(249, 168, 37, 0.2); color: var(--gold); }
+:root[data-theme="dark"] .tl-item.tl-future .tl-date { background: rgba(201, 155, 122, 0.2); color: var(--gold); }
 
 /* 这几个元素原本是硬编码的浅色背景，未纳入暗色覆盖：
    暗色下浅粉底 + 近白/亮粉文字，对比度极低、几乎读不出来。 */
@@ -1957,12 +1986,12 @@ footer .brand-line { margin-bottom: 6px; font-weight: 600; color: var(--ink); }
   color: var(--cocoa);
 }
 :root[data-theme="dark"] .today-banner {
-  background: linear-gradient(135deg, #3b2431, #2a1c28);
+  background: linear-gradient(135deg, #3a2a1e, #2c2018);
   border-color: rgba(255, 111, 156, 0.35);
   color: var(--cocoa);
 }
 :root[data-theme="dark"] .unlock-body {
-  background: linear-gradient(160deg, #241A14 0%, #1c1420 50%, #17111c 100%);
+  background: linear-gradient(160deg, #241A14 0%, #241a14 50%, #1c130d 100%);
 }
 
 /* 状态样式必须单独补一份暗色版。
@@ -1979,16 +2008,16 @@ footer .brand-line { margin-bottom: 6px; font-weight: 600; color: var(--ink); }
   border-color: var(--cocoa);
   background: rgba(255, 143, 180, 0.12);
 }
-/* 与浅色主题同色系，但提到能压在暗底上的亮度：绿/红各自的"对错"语义不变 */
+/* 与浅色主题同色系，但提到能压在暗底上的亮度：用棕的明度深浅区分"对错" */
 :root[data-theme="dark"] .quiz-opt.correct {
-  background: rgba(67, 160, 71, 0.22);
-  border-color: #66bb6a;
-  color: #b9e6bb;
+  background: rgba(201, 155, 122, 0.22);
+  border-color: #D9B48F;
+  color: #F5E9D8;
 }
 :root[data-theme="dark"] .quiz-opt.wrong {
-  background: rgba(229, 57, 53, 0.2);
-  border-color: #ef5350;
-  color: #ffb3b0;
+  background: rgba(44, 30, 20, 0.45);
+  border-color: #6B4A2F;
+  color: #D9C1A3;
 }
 :root[data-theme="dark"] .daily-answer.partner {
   background: rgba(255, 143, 180, 0.14);
@@ -2171,7 +2200,7 @@ html.theming .btn {
      未点亮又占绝大多数。与 .capsule-hint / .daily-note 去 opacity 是同一条口径
      （F-S10-05）：淡化只用颜色表达，不用透明度。 */
 }
-/* 已点亮：加一点玫红底与实边框，暗色下同样看得见（用变量，不吃主题） */
+/* 已点亮：加一点浅棕底与实边框，暗色下同样看得见（用变量，不吃主题） */
 .ach-item.on {
   opacity: 1;
   background: rgba(139, 94, 60, 0.14);
@@ -2196,7 +2225,7 @@ html.theming .btn {
 /* 已点亮那条提示用的是 --rose-deep，浅色下压在浅色卡上只有 4.2:1 —— 与 --ink-soft 同一类
    （都是"浅色下次要文字不达 AA"），一并往深走一档（F-S10-05）。 */
 .ach-item.on .ach-item-hint { color: var(--cocoa-deep); font-weight: 600; }
-:root:not([data-theme="dark"]) .ach-item.on .ach-item-hint { color: #c2185b; }
+:root:not([data-theme="dark"]) .ach-item.on .ach-item-hint { color: #6b4a2f; }
 
 .ach-note {
   padding: 20px 22px;
@@ -2273,7 +2302,7 @@ html.theming .btn {
   font-weight: 700;
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9);
 }
-:root[data-theme="dark"] .notify-dot { box-shadow: 0 0 0 2px rgba(20, 16, 26, 0.9); }
+:root[data-theme="dark"] .notify-dot { box-shadow: 0 0 0 2px rgba(24, 18, 12, 0.9); }
 #notifyDot[hidden],
 .notify-panel[hidden],
 .search-mask[hidden] { display: none !important; }
@@ -2292,7 +2321,7 @@ html.theming .btn {
   gap: 8px;
   background: rgba(255, 255, 255, 0.95);
 }
-:root[data-theme="dark"] .notify-panel { background: rgba(40, 30, 40, 0.96); }
+:root[data-theme="dark"] .notify-panel { background: rgba(40, 30, 22, 0.96); }
 .notify-head {
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 4px;
@@ -2333,7 +2362,7 @@ body.search-open { overflow: hidden; }
   position: fixed;
   inset: 0;
   z-index: 300;
-  background: rgba(28, 16, 24, 0.42);
+  background: rgba(30, 22, 16, 0.42);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   display: flex;
@@ -2350,7 +2379,7 @@ body.search-open { overflow: hidden; }
   padding: 10px 12px 12px;
   background: rgba(255, 255, 255, 0.97);
 }
-:root[data-theme="dark"] .search-box { background: rgba(40, 30, 40, 0.97); }
+:root[data-theme="dark"] .search-box { background: rgba(40, 30, 22, 0.97); }
 .search-bar { display: flex; align-items: center; gap: 8px; }
 .search-ico { flex: none; font-size: 1rem; opacity: 0.7; }
 .search-box input[type="search"] {
@@ -2410,7 +2439,7 @@ body.search-open { overflow: hidden; }
 .search-title { font-size: 0.88rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .search-text { font-size: 0.78rem; color: var(--ink-soft); line-height: 1.5; }
 .search-text mark, .search-title mark {
-  background: rgba(249, 168, 37, 0.35);
+  background: rgba(201, 155, 122, 0.35);
   color: inherit;
   border-radius: 3px;
   padding: 0 1px;
@@ -2481,7 +2510,7 @@ body.search-open { overflow: hidden; }
 .id-mask {
   position: fixed; inset: 0; z-index: 130;
   display: none; align-items: center; justify-content: center; padding: 18px;
-  background: rgba(70, 35, 55, 0.34);
+  background: rgba(70, 48, 30, 0.34);
   -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
 }
 .id-mask.show { display: flex; }
@@ -2489,7 +2518,7 @@ body.search-open { overflow: hidden; }
   position: relative; width: 100%; max-width: 420px;
   background: rgba(255, 255, 255, 0.97);
   border-radius: 22px; padding: 22px 20px 18px;
-  box-shadow: 0 24px 60px rgba(150, 40, 80, 0.28);
+  box-shadow: 0 24px 60px rgba(107, 74, 47, 0.28);
   animation: idPop var(--t-mid) var(--ease);
 }
 @keyframes idPop { from { opacity: 0; transform: translateY(14px) scale(0.98); } to { opacity: 1; transform: none; } }
@@ -2575,11 +2604,11 @@ body.search-open { overflow: hidden; }
   font-size: 0.66rem; padding: 1px 8px; border-radius: 999px;
   background: rgba(139, 94, 60, 0.14); color: var(--cocoa-deep);
 }
-.wish.st-doing .wish-status { background: rgba(179, 157, 219, 0.24); color: #5b4a86; }
-.wish.st-done .wish-status { background: rgba(249, 168, 37, 0.2); color: var(--gold-ink); }
-.wish.st-done .w-title { text-decoration: line-through; text-decoration-color: rgba(249, 168, 37, 0.7); }
-.wish.st-done { border-color: rgba(249, 168, 37, 0.4); }
-.wish.st-doing { border-color: rgba(179, 157, 219, 0.55); }
+.wish.st-doing .wish-status { background: rgba(201, 155, 122, 0.24); color: #6b4a2f; }
+.wish.st-done .wish-status { background: rgba(201, 155, 122, 0.2); color: var(--gold-ink); }
+.wish.st-done .w-title { text-decoration: line-through; text-decoration-color: rgba(201, 155, 122, 0.7); }
+.wish.st-done { border-color: rgba(201, 155, 122, 0.4); }
+.wish.st-doing { border-color: rgba(201, 155, 122, 0.55); }
 .wish-acts {
   display: flex; gap: 5px; flex-wrap: wrap; margin-top: 10px;
   opacity: 0; max-height: 0; overflow: hidden; transition: opacity var(--t-mid) var(--ease);
@@ -2616,17 +2645,17 @@ body.search-open { overflow: hidden; }
 .btn.btn-sm { padding: 7px 14px; font-size: 0.82rem; }
 
 /* ---------- 暗色主题 ---------- */
-:root[data-theme="dark"] .id-panel { background: rgba(42, 31, 40, 0.97); }
+:root[data-theme="dark"] .id-panel { background: rgba(42, 31, 23, 0.97); }
 :root[data-theme="dark"] .id-card { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.12); }
 :root[data-theme="dark"] .id-card.is-me { background: rgba(139, 94, 60, 0.16); }
 :root[data-theme="dark"] .id-name,
 :root[data-theme="dark"] .id-av,
-:root[data-theme="dark"] .wish-form input { background: rgba(255, 255, 255, 0.08); color: #f6e9ef; border-color: rgba(255, 255, 255, 0.16); }
+:root[data-theme="dark"] .wish-form input { background: rgba(255, 255, 255, 0.08); color: #F5E9D8; border-color: rgba(255, 255, 255, 0.16); }
 :root[data-theme="dark"] .wish-chip,
-:root[data-theme="dark"] .wish-set { background: rgba(255, 255, 255, 0.07); color: #e8d5de; }
+:root[data-theme="dark"] .wish-set { background: rgba(255, 255, 255, 0.07); color: #D9C1A3; }
 :root[data-theme="dark"] .wish-form { background: rgba(255, 255, 255, 0.05); }
-:root[data-theme="dark"] .author-badge { background: rgba(139, 94, 60, 0.22); color: #ffd0e0; }
-:root[data-theme="dark"] .wish.st-doing .wish-status { color: #d6c8f5; }
+:root[data-theme="dark"] .author-badge { background: rgba(139, 94, 60, 0.22); color: #F5E9D8; }
+:root[data-theme="dark"] .wish.st-doing .wish-status { color: #E8C9A0; }
 
 /* ---------- 小屏 ---------- */
 @media (max-width: 640px) {
