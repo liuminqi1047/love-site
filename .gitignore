@@ -1,0 +1,26 @@
+# 系统垃圾
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 临时 / 备份
+*.bak
+*.bak2
+*.tmp
+.sync/
+**/*.tmp
+
+# 站点运行时抖动（限流计数，每次失败登录都会变）
+site/data/security.json
+
+# 构建产物（可由 src/ 重新生成）
+src/dist/
+
+# 门禁签名密钥（由程序自动生成，泄露即可伪造解锁 Cookie）
+site/data/gate_secret
+
+# 运行时数据（含明文解锁密码、私密留言、每日一问答案）
+site/data/*.json
+# 上传照片（个人隐私）
+site/assets/img/uploads/*
+!site/assets/img/uploads/.htaccess
