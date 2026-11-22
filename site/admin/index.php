@@ -22,41 +22,78 @@ love_session();
 <link rel="icon" type="image/png" sizes="any" href="../assets/img/favicon.png">
 <link rel="apple-touch-icon" href="../assets/img/favicon.png">
 <style>
-  :root { --accent:#8B5E3C; --accent-d:#6B4A2F; --cocoa:#8B5E3C; --cocoa-deep:#6B4A2F; --ink:#4A3226; --sub:#7A5C48; --line:#EAD9C2; --bg:#FFFBF2; }
+  /* 变量与前台 assets/css/style.css 同名同值：一套色、一套圆角、一套按钮渐变。
+     --rose / --rose-deep 只做极小面积点缀（前台规则：粉只用于腮红·爱心·进度·下划线）。 */
+  :root {
+    --rose:        #f06292;
+    --rose-deep:   #d81b60;   /* 原 --pink-d */
+    --cocoa:       #8B5E3C;
+    --cocoa-deep:  #6B4A2F;
+    --cocoa-soft:  #EAD9C2;   /* 原 --line */
+    --ink:         #4A3226;
+    --ink-soft:    #7A5C48;   /* 原 --sub */
+    --bg:          #FFFBF2;
+    --radius:      24px;
+    /* 栏宽：与前台 .nav-inner（min(1120px,94vw)）同一栏；窄屏保底 22px。
+       顶栏/页签/保存条都按它对齐，宽屏下才和居中后的卡片列成一条直线。 */
+    --pad-x:       max(22px, calc((100% - 1120px) / 2 + 22px));
+    /* 小面积渐变条（装饰），与前台同名变量一致 */
+    --grad:        linear-gradient(135deg, var(--rose) 0%, #D9B48F 58%, #8B5E3C 100%);
+    --grad-btn:    linear-gradient(135deg, #A67C52 0%, #8B5E3C 55%, #6B4A2F 100%);
+    /* 白字压在上面必须用深色变体：--grad-btn 上 13px 白字只有 ~3.5:1，前台同样处理 */
+    --grad-btn-ink:linear-gradient(135deg, #6B4A2F 0%, #5C3D2E 55%, #4A3226 100%);
+  }
   * { box-sizing: border-box; }
-  body { font-family:"Segoe UI","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--ink); margin:0; font-size:14px; }
-  header { background:#fff; border-bottom:1px solid var(--line); padding:14px 22px; display:flex; align-items:center; gap:14px; position:sticky; top:0; z-index:20; }
+  body { font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+    line-height:1.7; background:var(--bg); color:var(--ink); margin:0; font-size:14px; }
+  /* 顶栏与前台导航同一套：半透明奶油白 + blur(16px) */
+  header { background:rgba(255,253,248,.72); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--cocoa-soft); padding:14px var(--pad-x); display:flex; align-items:center; gap:14px;
+    position:sticky; top:0; z-index:20; }
   header h1 { font-size:17px; margin:0; color:var(--cocoa-deep); }
-  header .who { color:var(--sub); font-size:13px; flex:1; }
-  .tabs { display:flex; flex-wrap:wrap; gap:6px; padding:12px 22px 0; }
-  .tabs button { border:1px solid var(--line); background:#fff; color:var(--ink); padding:7px 14px; border-radius:20px; cursor:pointer; font-size:13px; }
-  .tabs button.active { background:var(--accent); border-color:var(--accent); color:#fff; }
-  main { padding:16px 22px 90px; max-width: 980px; }
+  header .who { color:var(--ink-soft); font-size:13px; flex:1; }
+  .tabs { display:flex; flex-wrap:wrap; gap:6px; padding:12px var(--pad-x) 0; }
+  .tabs button { border:1px solid var(--cocoa-soft); background:#fff; color:var(--ink); padding:7px 14px;
+    border-radius:999px; cursor:pointer; font-size:13px; }
+  .tabs button:hover { border-color:var(--cocoa); }
+  .tabs button.active { background:var(--grad-btn-ink); border-color:transparent; color:#fff; }
+  main { padding:16px 22px 90px; max-width:1120px; margin:0 auto; }
   .tab { display:none; }
   .tab.active { display:block; }
-  .panel { background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 18px; margin-bottom:16px; }
+  /* 卡片与前台 .glass 同一套：半透明奶油白 + blur(14px) + 24px 圆角 + 棕阴影 */
+  .panel { background:rgba(255,253,248,.72); border:1px solid rgba(255,253,248,.85);
+    border-radius:var(--radius); padding:16px 18px; margin-bottom:16px;
+    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    box-shadow:0 12px 32px rgba(107,74,47,.14); }
   .panel h2 { margin:0 0 4px; font-size:15px; color:var(--cocoa-deep); }
-  .panel .desc { color:var(--sub); font-size:12px; margin-bottom:12px; }
-  label.f { display:block; font-size:12px; color:var(--sub); margin:8px 0 3px; }
+  .panel .desc { color:var(--ink-soft); font-size:12px; margin-bottom:12px; }
+  label.f { display:block; font-size:12px; color:var(--ink-soft); margin:8px 0 3px; }
+  /* 与前台 .field 同口径：2px 棕边（rgba(139,94,60,.3)）+ 14px 圆角 */
   input[type=text], input[type=password], input[type=date], textarea, select {
-    width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:8px; font-size:13px; font-family:inherit; outline:none; background:#fff; color:var(--ink);
+    width:100%; padding:10px 14px; border:2px solid rgba(139,94,60,.3); border-radius:14px;
+    font-size:13px; font-family:inherit; outline:none; background:rgba(255,255,255,.92); color:var(--ink);
   }
-  input:focus, textarea:focus, select:focus { border-color:var(--accent); }
+  input:focus, textarea:focus, select:focus { border-color:var(--cocoa); }
   .row { display:flex; flex-wrap:wrap; gap:8px; align-items:flex-end; border-bottom:1px dashed #F0E3D0; padding:10px 0; }
   .row > div { flex:1; min-width:110px; }
   .row .wide { flex:2.4; min-width:200px; }
   .row .opts { flex:2.4; display:flex; gap:6px; }
   .row .opts input { flex:1; }
   .row-btns { display:flex; gap:4px; align-items:center; flex:0 0 auto; }
-  .row-btns button { width:30px; height:30px; border:1px solid var(--line); background:#fff; border-radius:8px; cursor:pointer; color:var(--sub); }
-  .row-btns button:hover { color:var(--accent-d); border-color:var(--accent); }
+  .row-btns button { width:30px; height:30px; border:1px solid var(--cocoa-soft); background:#fff; border-radius:8px; cursor:pointer; color:var(--ink-soft); }
+  .row-btns button:hover { color:var(--cocoa-deep); border-color:var(--cocoa); }
   .row-btns button.del:hover { color:#6b4a2f; border-color:#6b4a2f; }
-  .btn { background:var(--cocoa); color:#fff; border:0; border-radius:10px; padding:9px 18px; cursor:pointer; font-size:13px; }
-  .btn:hover { background:var(--cocoa-deep); }
-  .btn.ghost { background:#fff; color:var(--cocoa-deep); border:1px solid var(--cocoa); }
+  /* 与前台 .btn 同一套：999px 药丸 + 深棕渐变 + 白字 */
+  .btn { background:var(--grad-btn-ink); color:#fff; border:0; border-radius:999px;
+    padding:13px 30px; cursor:pointer; font-size:13px; font-weight:600; }
+  .btn:hover { filter:brightness(1.08); }
+  .btn.ghost { background:transparent; color:var(--cocoa-deep); border:2px solid var(--cocoa); }
+  .btn.ghost:hover { background:rgba(139,94,60,.08); }
   .add-btn { margin:10px 0 0; }
-  .savebar { position:fixed; left:0; right:0; bottom:0; background:#fff; border-top:1px solid var(--line); padding:10px 22px; display:flex; align-items:center; gap:12px; z-index:30; }
-  .savebar .state { color:var(--sub); font-size:12px; flex:1; }
+  .savebar { position:fixed; left:0; right:0; bottom:0; background:#fff; border-top:1px solid var(--cocoa-soft);
+    padding:10px var(--pad-x); display:flex; align-items:center; gap:12px; z-index:30; }
+  .savebar::before { content:""; position:absolute; left:0; right:0; top:0; height:2px; background:var(--grad-btn); }
+  .savebar .state { color:var(--ink-soft); font-size:12px; flex:1; }
   .savebar .state.dirty { color:#8B5E3C; }
   .savebar .state.ok { color:#4A3226; }
 
@@ -67,7 +104,7 @@ love_session();
   .toastbox { position:fixed; top:12px; left:50%; transform:translateX(-50%); z-index:120;
     display:flex; flex-direction:column; gap:8px; width:min(560px,94vw); pointer-events:none; }
   .toast { pointer-events:auto; display:flex; align-items:flex-start; gap:10px;
-    background:#fff; border:1px solid var(--line); border-left:6px solid var(--cocoa);
+    background:#fff; border:1px solid var(--cocoa-soft); border-left:6px solid var(--cocoa);
     border-radius:12px; padding:12px 14px; font-size:14px; line-height:1.5; color:var(--ink);
     box-shadow:0 12px 34px rgba(107,74,47,.22); cursor:pointer;
     animation:toastIn .22s ease-out; }
@@ -94,14 +131,20 @@ love_session();
   .msg { padding:8px 10px; border-radius:8px; font-size:13px; margin:8px 0; }
   .msg.err { background:#EAD9C2; color:#4A3226; }
   .msg.ok { background:#F3E6CF; color:#6B4A2F; }
-  #loginView { max-width:380px; margin:9vh auto; background:#fff; border:1px solid var(--line); border-radius:16px; padding:28px; box-shadow:0 8px 30px rgba(107,74,47,.16); }
+  #loginView { position:relative; overflow:hidden; max-width:380px; margin:9vh auto;
+    background:rgba(255,253,248,.72); border:1px solid rgba(255,253,248,.85);
+    border-radius:var(--radius); padding:28px;
+    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    box-shadow:0 12px 32px rgba(107,74,47,.14); }
+  /* 顶部 4px 渐变条：--grad 的小面积用法，与前台标题下划线同族 */
+  #loginView::before { content:""; position:absolute; left:0; right:0; top:0; height:4px; background:var(--grad); }
   #loginView h1 { font-size:18px; color:var(--cocoa-deep); margin:0 0 4px; }
-  #loginView .sub { color:var(--sub); font-size:12px; margin-bottom:16px; }
-  .mini-thumb { width:44px; height:44px; object-fit:cover; border-radius:8px; border:1px solid var(--line); }
+  #loginView .sub { color:var(--ink-soft); font-size:12px; margin-bottom:16px; }
+  .mini-thumb { width:44px; height:44px; object-fit:cover; border-radius:8px; border:1px solid var(--cocoa-soft); }
   table.ct { width:100%; border-collapse:collapse; }
   table.ct td, table.ct th { border-bottom:1px solid #F0E3D0; padding:8px 6px; text-align:left; vertical-align:top; font-size:13px; }
-  table.ct th { color:var(--sub); font-weight:normal; font-size:12px; }
-  .muted { color:var(--sub); font-size:12px; }
+  table.ct th { color:var(--ink-soft); font-weight:normal; font-size:12px; }
+  .muted { color:var(--ink-soft); font-size:12px; }
   .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:0 24px; }
   @media (max-width:700px){ .grid2 { grid-template-columns:1fr; } }
 
@@ -109,10 +152,32 @@ love_session();
   .photo-order td { vertical-align: middle; }
   .photo-order .drag-cell { width: 28px; cursor: grab; color: #7A5C48; font-size: 1.1rem; }
   .photo-order .photo-row.dragging { opacity: .45; }
-  .photo-order .photo-row.drop-target td { box-shadow: inset 0 2px 0 #f06292; }
+  .photo-order .photo-row.drop-target td { box-shadow: inset 0 2px 0 var(--rose-deep); }
   .photo-order .order-cell { white-space: nowrap; }
   .btn.mini { padding: 3px 9px; font-size: .78rem; }
   .hist-list { margin-top: 10px; }
+  /* ---------- 从标签上收下来的内联样式（第 9 项） ---------- */
+  .mt8  { margin-top:8px; }
+  .mt12 { margin-top:12px; }
+  .mt14 { margin-top:14px; }
+  .ml10 { margin-left:10px; }
+  .w300 { max-width:300px; }
+  .mono { font-family:Consolas,Menlo,monospace; font-size:12px; }
+  .pre  { white-space:pre-wrap; }
+  .btn-block { width:100%; margin-top:16px; }
+  /* 音乐列表行：原来整行写在 HTML 字符串里 */
+  .music-row { display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--cocoa-soft); }
+  .music-row .m-main { flex:1; min-width:0; }
+  .music-row .m-name { font-weight:600; word-break:break-all; }
+  .music-row .m-nowrap { white-space:nowrap; }
+  /* 窄屏：音乐行的 4 个药丸按钮排不下 → 名字独占一行、按钮换行，避免撑破卡片 */
+  @media (max-width:700px){
+    .music-row { flex-wrap:wrap; }
+    .music-row .m-main { flex:1 0 100%; }
+    .music-row .m-nowrap { white-space:normal; }
+  }
+  input.ren { width:60%; padding:4px 6px; }
+
   .hist-preview {
     margin-top: 12px; max-height: 320px; overflow: auto; padding: 12px;
     background: #2C2018; color: #F5E9D8; border-radius: 12px;
@@ -132,7 +197,7 @@ love_session();
   <label class="f">密码</label>
   <input type="password" id="lgPass" maxlength="64" autocomplete="current-password">
   <div id="lgMsg"></div>
-  <button class="btn" id="lgBtn" style="width:100%;margin-top:16px">登 录</button>
+  <button class="btn btn-block" id="lgBtn">登 录</button>
 </div>
 
 <!-- ================= 主界面 ================= -->
@@ -331,7 +396,7 @@ love_session();
         <p class="desc">把全部自定义数据（配置/留言/情书/照片记录/管理员账号）下载为一个 JSON 文件，妥善保存。</p>
         <button class="btn" id="backupBtn">⬇ 下载备份（JSON）</button>
         <button class="btn ghost" id="exportZipBtn">🗜 一键导出（含照片）</button>
-        <p class="desc" style="margin-top:8px">导出为 zip：<code>data/*.json</code> + <code>photos/</code> 原图 + 恢复说明。
+        <p class="desc mt8">导出为 zip：<code>data/*.json</code> + <code>photos/</code> 原图 + 恢复说明。
         适合换主机或留一份完整存档；音乐文件体积大，未包含。</p>
       </div>
       <div class="panel">
@@ -343,12 +408,12 @@ love_session();
         </p>
         <a class="btn" id="archiveBtn" href="backup.php">📦 下载完整备份（含音乐）</a>
         <a class="btn ghost" id="archiveNoMusicBtn" href="backup.php?music=0">只下载数据 + 照片</a>
-        <div style="margin-top:14px">
+        <div class="mt14">
           <input type="file" id="archiveInput" accept=".zip,application/zip" hidden>
           <button class="btn" id="archiveRestoreBtn" type="button">⤴ 上传备份包恢复</button>
-          <span id="archiveProg" class="muted" style="margin-left:10px"></span>
+          <span id="archiveProg" class="muted ml10"></span>
         </div>
-        <p class="desc" style="margin-top:8px">
+        <p class="desc mt8">
           恢复会<strong>覆盖</strong>现有数据、照片与音乐（包里没有的会被移除），
           并先把当前 <code>data/*.json</code> 存到 <code>data/pre-restore/&lt;时间&gt;/</code>。
           管理员密码也会回到备份那一刻；包内不含 <code>security.json</code> 与门禁密钥。
@@ -387,14 +452,14 @@ love_session();
                    false —— 后台当场自锁，唯一出路是手改 data/admin.json（S4-01）。 */ ?>
           <div><label class="f">新密码（6-64 位）</label><input type="password" id="pwNew" maxlength="64" autocomplete="new-password"></div>
         </div>
-        <div><label class="f">再次输入新密码</label><input type="password" id="pwNew2" maxlength="64" autocomplete="new-password" style="max-width:300px"></div>
-        <button class="btn" id="pwBtn" style="margin-top:12px">修改密码</button>
+        <div><label class="f">再次输入新密码</label><input type="password" id="pwNew2" class="w300" maxlength="64" autocomplete="new-password"></div>
+        <button class="btn mt12" id="pwBtn">修改密码</button>
       </div>
       <div class="panel">
         <h2>高级：直接编辑 JSON</h2>
         <p class="desc">不想用表单时，可在此直接改全部配置（与表单实时联动）。修改后点"应用"，再点右下角保存。</p>
-        <textarea id="rawJson" rows="14" style="font-family:Consolas,monospace;font-size:12px"></textarea>
-        <button class="btn ghost" id="rawApply" style="margin-top:8px">应用 JSON（校验后载入表单）</button>
+        <textarea id="rawJson" class="mono" rows="14"></textarea>
+        <button class="btn ghost mt8" id="rawApply">应用 JSON（校验后载入表单）</button>
       </div>
     </section>
   </main>
@@ -1120,14 +1185,13 @@ love_session();
     box.innerHTML = ts.map(function (t) {
       var on = t.id === musicState.active;
       var when = t.ts ? new Date(t.ts * 1000).toLocaleDateString() : "";
-      return '<div class="music-row" data-id="' + escHtml(t.id) + '"' +
-             ' style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #EAD9C2">' +
-             '<div style="flex:1;min-width:0">' +
-               '<div class="m-name" style="font-weight:600;word-break:break-all">' + escHtml(t.title) + '</div>' +
+      return '<div class="music-row" data-id="' + escHtml(t.id) + '">' +
+             '<div class="m-main">' +
+               '<div class="m-name">' + escHtml(t.title) + '</div>' +
                '<div class="muted">' + fmtBytes(t.size) + (when ? " · " + when : "") + '</div>' +
              '</div>' +
-             '<div style="white-space:nowrap">' + (on ? "✅ 当前播放" : '<span class="muted">—</span>') + '</div>' +
-             '<div style="white-space:nowrap">' +
+             '<div class="m-nowrap">' + (on ? "✅ 当前播放" : '<span class="muted">—</span>') + '</div>' +
+             '<div class="m-nowrap">' +
                '<button class="btn ghost" data-act="play">试听</button> ' +
                (on ? '<button class="btn ghost" data-act="off">取消启用</button>'
                    : '<button class="btn" data-act="on">设为当前</button>') + ' ' +
@@ -1173,7 +1237,7 @@ love_session();
   function startRenameMusic(row, t) {
     var nameEl = row.querySelector(".m-name");
     if (!nameEl) return;
-    nameEl.innerHTML = '<input type="text" class="ren" maxlength="60" style="width:60%;padding:4px 6px">' +
+    nameEl.innerHTML = '<input type="text" class="ren" maxlength="60">' +
       ' <button class="btn" data-act="save-rename">保存</button>' +
       ' <button class="btn ghost" data-act="cancel-rename">取消</button>';
     var inp = nameEl.querySelector("input");
@@ -1961,7 +2025,7 @@ love_session();
       td1.innerHTML =
         (locked ? "🔒 " : "📖 ") + "<b>" + escHtml(c.title || "") + "</b>" +
         ' <span class="muted">开启于 ' + escHtml(c.openAt || "") + (locked ? "（还没到）" : "（已开启）") + "</span>" +
-        '<div class="muted" style="white-space:pre-wrap">' + escHtml(c.body || "") + "</div>" +
+        '<div class="muted pre">' + escHtml(c.body || "") + "</div>" +
         (c.sign ? '<div class="muted">—— ' + escHtml(c.sign) + "</div>" : "");
       var td2 = document.createElement("td");
       td2.className = "muted"; td2.textContent = fmtTs(c.ts);
@@ -2004,7 +2068,7 @@ love_session();
       var html = "<b>" + escHtml(d.date) + "</b>";
       if (qText) html += ' <span class="muted">' + escHtml(qText) + "</span>";
       (d.answers || []).forEach(function (a, i) {
-        html += '<div class="muted" style="white-space:pre-wrap">答案 ' + (i + 1) + "：" + escHtml(a.text) + "</div>";
+        html += '<div class="muted pre">答案 ' + (i + 1) + "：" + escHtml(a.text) + "</div>";
       });
       td1.innerHTML = html;
       var td2 = document.createElement("td");

@@ -219,7 +219,7 @@
     resize();
     window.addEventListener("resize", resize);
 
-    const MAX = reduceMotion ? 0 : (window.innerWidth < 640 ? 14 : 22);
+    const MAX = reduceMotion ? 0 : (window.innerWidth < 640 ? 8 : 12);   // 手机 8 / 桌面 12
     function spawn(force) {
       if (hearts.length < MAX && (force || Math.random() < 0.06)) {
         hearts.push({
@@ -230,7 +230,7 @@
           sway: 0.4 + Math.random() * 0.8,
           phase: Math.random() * Math.PI * 2,
           alpha: 0.12 + Math.random() * 0.2,
-          hue: Math.random() < 0.75 ? 340 : 25,  // 粉 / 浅棕
+          hue: Math.random() < 0.15 ? 340 : 25,  // 粉只占 15% 以下 / 其余浅棕
         });
       }
     }
@@ -242,7 +242,8 @@
       ctx.save();
       ctx.translate(x + Math.sin(t * 0.001 + phase) * 14, y);
       ctx.globalAlpha = alpha;
-      ctx.fillStyle = "hsl(" + hue + ", 75%, 78%)";
+      /* 粉心单独压暗一档，粉只做小点缀；棕心沿用原色 */
+      ctx.fillStyle = (hue === 340) ? "hsl(340, 55%, 72%)" : "hsl(" + hue + ", 75%, 78%)";
       ctx.beginPath();
       ctx.moveTo(0, r * 0.32);
       ctx.bezierCurveTo(-r, -r * 0.35, -r * 0.45, -r, 0, -r * 0.28);
@@ -1274,9 +1275,10 @@
     const W = innerWidth;
     const H = innerHeight;
     fitCanvas(canvas, W, H);
-    const colors = ["#f06292", "#ff8aab", "#8B5E3C", "#A67C52", "#D9B48F", "#E8C48A", "#FFFDF8"];
+    /* 只留 #f06292 一个粉：彩带是触发一次的庆祝，不铺粉 */
+    const colors = ["#f06292", "#8B5E3C", "#A67C52", "#D9B48F", "#E8C48A", "#FFFDF8"];
     const parts = [];
-    for (let i = 0; i < 160; i++) {
+    for (let i = 0; i < 100; i++) {
       parts.push({
         x: W / 2, y: H / 2,
         vx: (Math.random() - 0.5) * 14,
@@ -1325,13 +1327,14 @@
     const W = innerWidth;
     const H = innerHeight;
     fitCanvas(cv, W, H);
-    const colors = ["#f06292", "#ff8aab", "#8B5E3C", "#A67C52", "#D9B48F", "#E8C48A", "#FFFDF8"];
+    /* 只留 #f06292 一个粉：彩带是触发一次的庆祝，不铺粉 */
+    const colors = ["#f06292", "#8B5E3C", "#A67C52", "#D9B48F", "#E8C48A", "#FFFDF8"];
     let parts = [];
-    const maxBursts = bursts || 6;
+    const maxBursts = bursts || 4;
     let fired = 0;
 
     function boom(x, y) {
-      const n = 46 + (Math.random() * 24 | 0);
+      const n = 30 + (Math.random() * 16 | 0);   // 每发 30-45 粒
       const c = colors[(Math.random() * colors.length) | 0];
       for (let i = 0; i < n; i++) {
         const a = (Math.PI * 2 * i) / n + Math.random() * 0.3;
@@ -1371,14 +1374,13 @@
   };
 
   /* ---------- 解锁页花瓣(仅 index.html) ----------
-     reduceMotion 与飘心同一口径（见文件末尾的启动飘心）：这 46 片花瓣是持续
-     下落的常驻动画，正是"减少动态效果"要关掉的那一类。旧实现漏了这道判断，
-     于是开了该选项的访客解锁页照样满屏花瓣。 */
-  /* ---------- 解锁页花瓣：装饰动效已精简关闭（只保留爱心心跳 + 切页淡入） ---------- */
-  if (false && document.getElementById("petalCanvas") && !reduceMotion) {
+     进场落一遍就停：不再无限循环、落到底也不回顶部重下（原来是比较 id 后
+     从 -20 重新开始）。reduceMotion 与飘心同一口径，开了"减少动态效果"整段不跑。 */
+  if (document.getElementById("petalCanvas") && !reduceMotion) {
     const cv = document.getElementById("petalCanvas");
     const cx = cv.getContext("2d");
-    let W, H, petals = [];
+    let W, H;
+    const petals = [];
     function rs() {
       W = innerWidth;
       H = innerHeight;
@@ -1386,38 +1388,42 @@
     }
     rs();
     addEventListener("resize", rs);
-    const COUNT = innerWidth < 640 ? 28 : 46;
+    const COUNT = innerWidth < 640 ? 16 : 24;   // 原 28 / 46
+    const PINK = 3;                             // 24 片里只留 3 片粉
     for (let i = 0; i < COUNT; i++) {
       petals.push({
-        x: Math.random() * W, y: Math.random() * H,
+        /* 从屏幕上方起步：整批落一遍刚好覆盖一屏，落完就停 */
+        x: Math.random() * W, y: -20 - Math.random() * H * 0.7,
         r: 5 + Math.random() * 8,
-        vy: 0.5 + Math.random() * 1.2,
+        vy: 1.6 + Math.random() * 1.6,
         vx: -0.4 + Math.random() * 0.8,
         rot: Math.random() * Math.PI,
         vr: -0.03 + Math.random() * 0.06,
+        pink: i < PINK,
       });
     }
     (function petalFrame() {
       cx.clearRect(0, 0, W, H);
+      let alive = 0;
       petals.forEach((p) => {
         p.y += p.vy; p.x += p.vx; p.rot += p.vr;
-        if (p.y > H + 20) { p.y = -20; p.x = Math.random() * W; }
-        if (p.x > W + 20) p.x = -20;
-        if (p.x < -20) p.x = W + 20;
+        if (p.y > H + 20) return;                 // 落出屏幕就留在外面，不再回顶部
+        alive++;
         cx.save();
         cx.translate(p.x, p.y);
         cx.rotate(p.rot);
         cx.globalAlpha = 0.7;
         const g = cx.createLinearGradient(0, -p.r, 0, p.r);
-        g.addColorStop(0, "#ffc1d8");
-        g.addColorStop(1, "#ff8fb3");
+        if (p.pink) { g.addColorStop(0, "#FFC2CC"); g.addColorStop(1, "#f06292"); }
+        else { g.addColorStop(0, "#D9B48F"); g.addColorStop(1, "#A67C52"); }   // 棕为主
         cx.fillStyle = g;
         cx.beginPath();
         cx.ellipse(0, 0, p.r * 0.55, p.r, 0, 0, Math.PI * 2);
         cx.fill();
         cx.restore();
       });
-      animLoop(petalFrame);
+      if (alive) animLoop(petalFrame);            // 全部落完 → 不再续帧
+      else cx.clearRect(0, 0, W, H);
     })();
   }
 
@@ -1434,10 +1440,39 @@
     window.addEventListener("resize", resize);
 
     const hearts = [];
+    const LIFE = 600;      // 寿命 600ms（原 800ms）
+    const CAP = 12;        // 同时最多 12 颗（原 26 颗）
     let lastSpawn = 0;
+    let ticking = false;   // 是否已有帧循环在跑（空转的根源就是它没有）
+
+    function loop() {
+      ctx.clearRect(0, 0, W, H);
+      const now = Date.now();
+      for (let i = hearts.length - 1; i >= 0; i--) {
+        const h = hearts[i];
+        const age = now - h.born;
+        if (age > LIFE) { hearts.splice(i, 1); continue; }
+        h.y += h.vy;
+        const life = 1 - age / LIFE;
+        ctx.save();
+        ctx.translate(h.x, h.y);
+        ctx.globalAlpha = h.alpha * life;
+        ctx.fillStyle = (h.hue === 340) ? "hsl(340, 55%, 72%)" : "hsl(" + h.hue + ", 80%, 78%)";
+        ctx.beginPath();
+        ctx.moveTo(0, h.r * 0.32);
+        ctx.bezierCurveTo(-h.r, -h.r * 0.35, -h.r * 0.45, -h.r, 0, -h.r * 0.28);
+        ctx.bezierCurveTo(h.r * 0.45, -h.r, h.r, -h.r * 0.35, 0, h.r * 0.32);
+        ctx.fill();
+        ctx.restore();
+      }
+      /* 一颗不剩就收尾停机 —— 原来这里无条件续 rAF，鼠标不动也在空转 */
+      if (!hearts.length) { ticking = false; return; }
+      animLoop(loop);
+    }
+
     window.addEventListener("pointermove", (e) => {
       const now = Date.now();
-      if (now - lastSpawn < 60) return;
+      if (now - lastSpawn < 120) return;   // 节流 120ms（原 60ms）
       lastSpawn = now;
       hearts.push({
         x: e.clientX + (Math.random() - 0.5) * 18,
@@ -1446,35 +1481,20 @@
         vy: -0.5 - Math.random() * 0.6,
         alpha: 0.55,
         born: now,
-        hue: Math.random() < 0.8 ? 340 : 25,
+        hue: Math.random() < 0.15 ? 340 : 25,   // 粉只占 15% 以下
       });
-      if (hearts.length > 26) hearts.shift();
+      if (hearts.length > CAP) hearts.shift();
+      if (!ticking) { ticking = true; animLoop(loop); }   // 有爱心才启动
     }, { passive: true });
-
-    (function loop() {
-      ctx.clearRect(0, 0, W, H);
-      const now = Date.now();
-      for (let i = hearts.length - 1; i >= 0; i--) {
-        const h = hearts[i];
-        const age = now - h.born;
-        if (age > 800) { hearts.splice(i, 1); continue; }
-        h.y += h.vy;
-        const life = 1 - age / 800;
-        ctx.save();
-        ctx.translate(h.x, h.y);
-        ctx.globalAlpha = h.alpha * life;
-        ctx.fillStyle = "hsl(" + h.hue + ", 80%, 78%)";
-        ctx.beginPath();
-        ctx.moveTo(0, h.r * 0.32);
-        ctx.bezierCurveTo(-h.r, -h.r * 0.35, -h.r * 0.45, -h.r, 0, -h.r * 0.28);
-        ctx.bezierCurveTo(h.r * 0.45, -h.r, h.r, -h.r * 0.35, 0, h.r * 0.32);
-        ctx.fill();
-        ctx.restore();
-      }
-      animLoop(loop);
-    })();
   }
 
-  /* ---------- 装饰动效已精简：只保留爱心心跳(heartbeat)与切页淡入(pageIn)。
-     背景飘心、光标跟随爱心、解锁页花瓣均已关闭。 ---------- */
+  /* ---------- 动效启动 ----------
+     飘心：全站唯一常驻的无限循环动效（手机 8 / 桌面 12，粉 ≤15%）。
+     光标爱心：仅鼠标设备，120ms 节流、最多 12 颗、没有爱心时自动停循环。
+     花瓣：解锁页落一遍就停；彩带 / 烟花：只在触发时放一次，都不是循环。
+     系统开"减少动态效果"时以上全部跳过（各函数内另有一道同口径判断）。 ---------- */
+  if (!reduceMotion) {
+    createHeartsCanvas();
+    cursorHearts();
+  }
 })();

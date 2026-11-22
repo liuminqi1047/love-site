@@ -12,10 +12,10 @@
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#FFFBF2">
   <meta name="robots" content="noindex,nofollow,noarchive">
-  <script src="assets/js/theme.js?v=4eab8837"></script>
+  <script src="assets/js/theme.js?v=9c15d450"></script>
   <script src="api/config.php"></script>
   <script src="assets/js/config.js?v=0c15e332"></script>
-  <link rel="stylesheet" href="assets/css/style.css?v=c141893b">
+  <link rel="stylesheet" href="assets/css/style.css?v=e565c84b">
   <meta property="og:image" content="https://YOUR-SITE.example/assets/img/og-cover.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -29,7 +29,7 @@
     <h1 id="unlockTitle">欢迎来到一二和布布的小窝</h1>
     <p class="sub" id="unlockSub"></p>
     <input type="password" id="pwInput" placeholder="输入密码，轻轻叩门" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="40">
-    <button class="btn" id="unlockBtn">🧸 进入我们的世界</button>
+    <button class="btn" id="unlockBtn">进入我们的世界</button>
     <div class="hint" id="pwHint"></div>
   </div>
 
@@ -100,7 +100,7 @@
       function unlockError(msg, extra) {
         input.disabled = false;
         btn.disabled = false;
-        btn.textContent = "🧸 进入我们的世界";
+        btn.textContent = "进入我们的世界";
         fail(extra ? msg + "　" + extra : msg);
       }
 
@@ -114,14 +114,14 @@
         window.toast && window.toast(msg || "尝试太多次了，先歇一会儿");
         function paint() {
           var m = Math.floor(left / 60), s = left % 60;
-          btn.textContent = "🔒 " + (m > 0 ? m + " 分 " : "") + s + " 秒后可再试";
+          btn.textContent = (m > 0 ? m + " 分 " : "") + s + " 秒后可再试";
         }
         paint();
         var timer = setInterval(function () {
           left -= 1;
           if (left > 0) { paint(); return; }
           clearInterval(timer);
-          btn.textContent = "🧸 进入我们的世界";
+          btn.textContent = "进入我们的世界";
           input.disabled = false;
           btn.disabled = false;
           hint.textContent = "可以再试了（提示：首尾空格会被忽略，中文输入法请切半角）";
@@ -134,15 +134,15 @@
         input.style.display = "";
         input.disabled = false;
         btn.disabled = false;
-        btn.textContent = "🧸 进入我们的世界";
-        hint.textContent = text || "悄悄话：这个密码，只有你们俩知道 😉";
+        btn.textContent = "进入我们的世界";
+        hint.textContent = text || "悄悄话：这个密码，只有你们俩知道";
       }
 
       function showNoPassword() {
         mode = "open";
         input.style.display = "none";
         btn.disabled = false;
-        btn.textContent = "🧸 进入我们的世界";
+        btn.textContent = "进入我们的世界";
         hint.textContent = "（当前未设密码，点按钮直接进入）";
       }
 
@@ -160,10 +160,10 @@
           var protoNote = location.protocol === "http:"
             ? "当前用的是 http（不安全连接）：浏览器既不会发送、也不会保存安全 Cookie —— 请改用 https:// 重新打开本站。"
             : "请检查：是否在用无痕/隐私模式、是否禁用了本站 Cookie，或换系统浏览器打开（内置浏览器常有限制）。";
-          showInput("刚才密码已经验证通过了，但浏览器没能保存解锁状态 🔒 " + protoNote);
+          showInput("刚才密码已经验证通过了，但浏览器没能保存解锁状态 " + protoNote);
           return;
         }
-        showInput(/[?&]need=1/.test(location.search) ? "先解锁，才能看里面的内容 🔒" : "");
+        showInput(/[?&]need=1/.test(location.search) ? "先解锁，才能看里面的内容" : "");
       }
 
       /* 探测没能确知服务端情况（返回的不是 JSON，或干脆连不上）：绝不退化成
@@ -182,8 +182,8 @@
         input.style.display = "";
         input.disabled = false;
         btn.disabled = false;
-        btn.textContent = "🧸 进入我们的世界";
-        hint.textContent = "悄悄话：这个密码，只有你们俩知道 😉";
+        btn.textContent = "进入我们的世界";
+        hint.textContent = "悄悄话：这个密码，只有你们俩知道";
         var unlocked = false;
         try { unlocked = sessionStorage.getItem("love-unlocked") === "1"; } catch (e) {}
         if (unlocked) location.replace("home.html");
@@ -326,6 +326,6 @@
     })();
   </script>
 
-  <script defer src="assets/js/main.js?v=0338bcd1"></script>
+  <script defer src="assets/js/main.js?v=6b98fc8f"></script>
 </body>
 </html>

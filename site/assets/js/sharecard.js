@@ -209,11 +209,12 @@
       rg.addColorStop(0, color); rg.addColorStop(1, "rgba(255,255,255,0)");
       ctx.fillStyle = rg; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
     }
-    glow(120, 180, 520, "rgba(255,194,204,0.42)");
-    glow(980, 1320, 560, "rgba(248,187,208,0.38)");
+    /* 柔光用棕：原来两处大面积粉光会把整张卡拉粉 */
+    glow(120, 180, 520, "rgba(217,180,143,0.35)");
+    glow(980, 1320, 560, "rgba(232,196,138,0.30)");
 
     // 装饰爱心
-    ctx.fillStyle = "rgba(240,98,146,0.16)";
+    ctx.fillStyle = "rgba(139,94,60,0.16)";   // 装饰爱心改棕
     [[140, 1380, 26], [900, 300, 20], [820, 1480, 16], [220, 340, 14]].forEach(function (h) {
       heartPath(ctx, h[0], h[1], h[2]); ctx.fill();
     });

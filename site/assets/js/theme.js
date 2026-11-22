@@ -35,7 +35,12 @@
   var KEY = "love-theme";
   var MODES = ["system", "light", "dark"];
   var LABEL = { system: "跟随系统", light: "浅色", dark: "深色" };
-  var ICON = { system: "🌗", light: "☀️", dark: "🌙" };
+  /* 图标用线性 SVG，避免 emoji 依赖系统字体（第 3 步：主题按钮改 SVG）*/
+  var ICON = {
+    system: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="7.5"/><path d="M12 4.5a7.5 7.5 0 0 1 0 15z" fill="currentColor" stroke="none"/></svg>',
+    light: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3.8"/><path d="M12 2.8v2M12 19.2v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2.8 12h2M19.2 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
+    dark: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg>'
+  };
 
   var mode = "system";
   try {
@@ -96,7 +101,7 @@
     },
     onChange: function (fn) { listeners.push(fn); },
     label: function () { return LABEL[mode] || ""; },
-    icon: function () { return ICON[mode] || "🌗"; },
+    icon: function () { return ICON[mode] || ICON.system; },
   };
 
   /* 导航上的三态切换按钮（所有前台页面都有） */
@@ -104,7 +109,7 @@
     var btn = document.getElementById("themeBtn");
     if (!btn) return;
     function refresh() {
-      btn.textContent = window.__loveTheme.icon();
+      btn.innerHTML = window.__loveTheme.icon();   /* SVG，需 innerHTML */
       btn.title = "主题：" + window.__loveTheme.label();
       btn.setAttribute("aria-label", "切换主题（当前：" + window.__loveTheme.label() + "）");
     }

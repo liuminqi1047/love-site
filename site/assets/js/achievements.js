@@ -396,7 +396,7 @@
     if (!n) return;
     var ringColor = opt.ring || "rgba(139,94,60,0.22)";
     var fillColor = opt.fill || "rgba(200,155,122,0.30)";
-    var lineColor = opt.line || "#f06292";
+    var lineColor = opt.line || "#8B5E3C";
     var labelColor = opt.label || "#7A5C48";
     var labelSize = opt.labelSize || 22;
 
@@ -479,10 +479,11 @@
       ctx.fillStyle = rg;
       ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
     }
-    glow(120, 260, 560, "rgba(255,194,204,0.40)");
-    glow(980, 1560, 620, "rgba(248,187,208,0.36)");
+    /* 同纪念卡：柔光改棕，避免整张卡泛粉 */
+    glow(120, 260, 560, "rgba(217,180,143,0.35)");
+    glow(980, 1560, 620, "rgba(232,196,138,0.30)");
 
-    ctx.fillStyle = "rgba(240,98,146,0.14)";
+    ctx.fillStyle = "rgba(139,94,60,0.14)";   // 装饰爱心改棕
     [[120, 1560, 26], [930, 420, 22], [860, 1700, 16], [200, 520, 14]].forEach(function (h) {
       heartPath(ctx, h[0], h[1], h[2]); ctx.fill();
     });
@@ -530,7 +531,7 @@
       var col = i % 2, row = Math.floor(i / 2);
       var x = 120 + col * colW;
       var y = 1300 + row * 56;
-      ctx.fillStyle = "#f06292";
+      ctx.fillStyle = "#6B4A2F";
       ctx.font = "400 30px " + FONT;
       ctx.fillText("✅", x, y);
       ctx.fillStyle = "#6B4A2F";
